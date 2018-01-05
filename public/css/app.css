@@ -1,0 +1,196 @@
+/**
+ * ######################### Main #########################
+ */
+.content {
+    margin-top: 60px;
+    min-height: 480px;
+}
+
+.page__title {
+    margin: 0px;
+}
+
+.page__title span {
+    margin: 0px;
+    padding: 0px;
+    font-size: 18px;
+    font-weight: bold;
+}
+/**
+ * ######################### Main #########################
+ */
+
+/**
+ * ######################### Button Square #########################
+ */
+/*.btn-sq-lg {
+    width: 150px !important;
+    height: 150px !important;
+}
+
+.btn-sq {
+    width: 100px !important;
+    height: 100px !important;
+    font-size: 10px;
+}
+
+.btn-sq-sm {
+    width: 50px !important;
+    height: 50px !important;
+    font-size: 10px;
+}
+
+.btn-sq-xs {
+    width: 25px !important;
+    height: 25px !important;
+    padding:2px;
+}*/
+/**
+ * ######################### Button Square #########################
+ */
+
+/**
+ * ######################### Tab #########################
+ */
+/*.nav-tab-holder {
+    padding: 0 0 0 30px;
+    float: right;
+}
+
+.nav-tab-holder .nav-tabs {
+    border: 0;
+    float: none;
+    display: table;
+    table-layout: fixed;
+    width: 100%;
+}
+
+.nav-tab-holder .nav-tabs > li {
+    margin-bottom: -3px;
+    text-align: center;
+    padding: 0;
+    display: table-cell;
+    float: none;
+    padding: 0;
+}
+
+.nav-tab-holder .nav-tabs > li > a {
+    background: #d9d9d9;
+    color: #6c6c6c;
+    margin: 0;
+    font-size: 18px;
+    font-weight: 300;
+}
+
+.nav-tab-holder .nav-tabs > li.active > a, .nav-tabs > li.active > a:hover, .nav-tabs > li.active > a:focus {
+    color: #FFF;
+    background-color: #23bab5;
+    border: 0;
+    border-radius: 0;
+}
+
+.testimonials .carousel-info img {
+    border: 1px solid #f5f5f5;
+    border-radius: 150px !important;
+    height: 75px;
+    padding: 3px;
+    width: 75px;
+}*/
+/**
+ * ######################### Tab #########################
+ */
+
+/**
+ * ######################### Tab #########################
+ */
+/*.testimonials .carousel-info {
+    overflow: hidden;
+}
+.testimonials .carousel-info img {
+    margin-right: 15px;
+}
+.testimonials .carousel-info span {
+    display: block;
+}
+.testimonials span.testimonials-name {
+    color: #e6400c;
+    font-size: 16px;
+    font-weight: 300;
+    margin: 15px 0 2px;
+}
+.testimonials span.testimonials-post {
+    color: #656565;
+    font-size: 12px;
+}*/
+/**
+ * Tab
+ */
+/**
+ * Input
+ */
+ .input__text {
+    color: green;
+    font-size: 14pt;
+    font-style: italic;
+    border-bottom: 1px dotted red;
+    cursor: pointer;
+ }
+
+/*ul {
+    margin: 0;
+    padding: 0;
+    padding-left: 0;
+    display: inline;
+    list-style-type: none;
+}
+li {
+    display: inline-block;
+    margin: 0;
+    margin-right: 1px;
+    padding: 0;
+}
+
+li h5 {
+    margin: 0;
+    padding: 0;
+}*/
+
+/*.tag {
+    font-size: 12px;
+    padding: 0.3em 0.4em 0.3em;
+    margin: 2px 1px !important;
+    display: inline-block;
+    max-width: 100%;
+}
+
+.tag > span {
+    display: inline-block;
+    max-width: 94%;
+    white-space: nowrap;
+    overflow: hidden;
+    -ms-text-overflow: ellipsis;
+    -o-text-overflow: ellipsis;
+    text-overflow: ellipsis;
+}
+
+.tag a {
+    display: inline-block;
+    color: #bbb;
+    cursor: pointer;
+    opacity: 0.6;
+    margin: 0 0 0 0.3em;
+}
+
+.tag a:hover {
+    opacity: 1.0;
+}
+
+.tag a .glyphicon-white {
+    color: #fff;
+    margin-bottom: 2px;
+}
+
+.tag .remove {
+    vertical-align: bottom;
+    top: 0;
+}*/
