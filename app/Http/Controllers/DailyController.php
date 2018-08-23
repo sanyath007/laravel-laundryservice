@@ -329,7 +329,7 @@ class DailyController extends Controller
             }
         }
 
-        // return redirect('daily/setdrape/list');
+        return redirect('daily/setdrape/list');
     }
 
     public function sentoutlist ()

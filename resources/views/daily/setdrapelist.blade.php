@@ -94,6 +94,63 @@
                         @endif
                     @endforeach
 
+                    <tr>
+                        <td colspan="2" style="text-align: center;">Actions</td>
+
+                        <?php for($d=1; $d <= 15; $d++): ?>
+                            <?php $setOr1 = DB::table("setdrape_daily")  
+                                                ->where(['date' => $_month. '-' .$d])
+                                                ->where(['stock_id' => '14'])
+                                                ->first();
+                            ?>
+
+                            <td style="text-align: center;" colspan="3"> 
+                                    
+                                <a  href="{{ url('/reserve/edit/') }}" 
+                                    class="btn btn-warning btn-xs">
+                                    <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
+                                </a>
+                                
+                                @if (Auth::user()->person_id != '1300200009261')
+                                    <a  href="{{ url('/reserve/cancel/') }}"
+                                        class="btn btn-primary btn-xs">
+                                        <i class="fa fa-times" aria-hidden="true"></i>
+                                    </a>
+
+                                    <form id="cancel-form" action="{{ url('/reserve/cancel/') }}" method="POST" style="display: none;">
+                                        {{ csrf_field() }}
+                                    </form>
+                                @endif
+
+                                @if (Auth::user()->person_id != '1300200009261')
+                                    <a  href="{{ url('/reserve/recover/') }}"
+                                        class="btn btn-default btn-xs">
+                                        <i class="fa fa-retweet" aria-hidden="true"></i>
+                                    </a>
+
+                                    <form id="recover-form" action="{{ url('/reserve/recover/') }}" method="POST" style="display: none;">
+                                        {{ csrf_field() }}
+                                    </form>
+                                @endif
+
+                                <a  href="{{ url('/reserve/delete/') }}"
+                                    class="btn btn-danger btn-xs">
+                                    <i class="fa fa-trash-o" aria-hidden="true"></i>
+                                </a>
+
+                                <form id="delete-form" action="{{ url('/reserve/delete/') }}" method="POST" style="display: none;">
+                                    {{ csrf_field() }}
+                                </form>
+
+                                <a  href="{{ url('/daily/setdrape/form2') }}/14/{{ ($setOr1) ? $setOr1->id : '' }}" 
+                                    class="btn btn-primary btn-xs">
+                                    <i class="fa fa-reply" aria-hidden="true"></i>
+                                </a>                                   
+                            </td>
+
+                        <?php endfor; ?>
+                    </tr>
+
                 </table>
             </div>
             <!--เซตผ้า OR 1-15-->
@@ -149,6 +206,62 @@
 
                         @endif
                     @endforeach
+
+                    <tr>
+                        <td colspan="2" style="text-align: center;">Actions</td>
+
+                        <?php for($d=16; $d <= 31; $d++): ?>
+                            <?php $setOr2 = DB::table("setdrape_daily")  
+                                                ->where(['date' => $_month. '-' .$d])
+                                                ->where(['stock_id' => '14'])
+                                                ->first();
+                            ?>
+
+                            <td style="text-align: center;" colspan="3">                                    
+                                <a  href="{{ url('/reserve/edit/') }}" 
+                                    class="btn btn-warning btn-xs">
+                                    <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
+                                </a>
+                                
+                                @if (Auth::user()->person_id != '1300200009261')
+                                    <a  href="{{ url('/reserve/cancel/') }}"
+                                        class="btn btn-primary btn-xs">
+                                        <i class="fa fa-times" aria-hidden="true"></i>
+                                    </a>
+
+                                    <form id="cancel-form" action="{{ url('/reserve/cancel/') }}" method="POST" style="display: none;">
+                                        {{ csrf_field() }}
+                                    </form>
+                                @endif
+
+                                @if (Auth::user()->person_id != '1300200009261')
+                                    <a  href="{{ url('/reserve/recover/') }}"
+                                        class="btn btn-default btn-xs">
+                                        <i class="fa fa-retweet" aria-hidden="true"></i>
+                                    </a>
+
+                                    <form id="recover-form" action="{{ url('/reserve/recover/') }}" method="POST" style="display: none;">
+                                        {{ csrf_field() }}
+                                    </form>
+                                @endif
+
+                                <a  href="{{ url('/reserve/delete/') }}"
+                                    class="btn btn-danger btn-xs">
+                                    <i class="fa fa-trash-o" aria-hidden="true"></i>
+                                </a>
+
+                                <form id="delete-form" action="{{ url('/reserve/delete/') }}" method="POST" style="display: none;">
+                                    {{ csrf_field() }}
+                                </form>
+
+                                <a  href="{{ url('/daily/setdrape/form2') }}/14/{{ ($setOr2) ? $setOr2->id : '' }}" 
+                                    class="btn btn-primary btn-xs">
+                                    <i class="fa fa-reply" aria-hidden="true"></i>
+                                </a>                                   
+                            </td>
+
+                        <?php endfor; ?>
+                    </tr>
 
                 </table>
             </div>
@@ -206,6 +319,61 @@
                         @endif
                     @endforeach
 
+                    <tr>
+                        <td colspan="2" style="text-align: center;">Actions</td>
+
+                        <?php for($d=1; $d <= 15; $d++): ?>
+                            <?php $setLr1 = DB::table("setdrape_daily")  
+                                                ->where(['date' => $_month. '-' .$d])
+                                                ->where(['stock_id' => '13'])
+                                                ->first();
+                            ?>
+
+                            <td style="text-align: center;" colspan="3">                                    
+                                <a  href="{{ url('/reserve/edit/') }}" 
+                                    class="btn btn-warning btn-xs">
+                                    <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
+                                </a>
+                                
+                                @if (Auth::user()->person_id != '1300200009261')
+                                    <a  href="{{ url('/reserve/cancel/') }}"
+                                        class="btn btn-primary btn-xs">
+                                        <i class="fa fa-times" aria-hidden="true"></i>
+                                    </a>
+
+                                    <form id="cancel-form" action="{{ url('/reserve/cancel/') }}" method="POST" style="display: none;">
+                                        {{ csrf_field() }}
+                                    </form>
+                                @endif
+
+                                @if (Auth::user()->person_id != '1300200009261')
+                                    <a  href="{{ url('/reserve/recover/') }}"
+                                        class="btn btn-default btn-xs">
+                                        <i class="fa fa-retweet" aria-hidden="true"></i>
+                                    </a>
+
+                                    <form id="recover-form" action="{{ url('/reserve/recover/') }}" method="POST" style="display: none;">
+                                        {{ csrf_field() }}
+                                    </form>
+                                @endif
+
+                                <a  href="{{ url('/reserve/delete/') }}"
+                                    class="btn btn-danger btn-xs">
+                                    <i class="fa fa-trash-o" aria-hidden="true"></i>
+                                </a>
+
+                                <form id="delete-form" action="{{ url('/reserve/delete/') }}" method="POST" style="display: none;">
+                                    {{ csrf_field() }}
+                                </form>
+
+                                <a  href="{{ url('/daily/setdrape/form2') }}/13/{{ ($setLr1) ? $setLr1->id : '' }}" 
+                                    class="btn btn-primary btn-xs">
+                                    <i class="fa fa-reply" aria-hidden="true"></i>
+                                </a>                                   
+                            </td>
+
+                        <?php endfor; ?>
+                    </tr>
                 </table>
             </div>
             <!--เซตผ้า LR 1-15-->
@@ -272,13 +440,7 @@
                                                 ->first();
                             ?>
 
-                            <td style="text-align: center;" colspan="3">                                
-                                <a  href="{{ url('/print/print.php') }} ?id={{ ($setLr2) ? $setLr2->id : '' }}" 
-                                    class="btn btn-success btn-xs"
-                                    target="_blank">
-                                    <i class="fa fa-print" aria-hidden="true"></i>
-                                </a>
-                                    
+                            <td style="text-align: center;" colspan="3">
                                 <a  href="{{ url('/reserve/edit/') }}" 
                                     class="btn btn-warning btn-xs">
                                     <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
