@@ -24,29 +24,47 @@
               <li><a href="{{ url('/daily/received/list') }}">รับผ้าจากโรงงาน</a></li>
               <li><a href="{{ url('/daily/sentout/list') }}">ส่งผ้าไปโรงงาน</a></li>
               <li role="separator" class="divider"></li>
-              <li><a href="{{ url('/daily/sentin/list') }}">ส่งผ้าไปหน่วยงาน</a></li>
-              <li><a href="{{ url('/daily/sentin/stock') }}">ยอดผ้าคงเหลือหน่วยงาน</a></li>
+              <li><a href="{{ url('/daily/sentin/stock') }}">เบิก-จ่ายผ้าสามัญ</a></li>
+              <!-- <li><a href="{{ url('/daily/sentin/form2') }}">ส่งผ้าไปหน่วยงาน (สำหรับงานซักฟอก)</a></li> -->
+              <li role="separator" class="divider"></li>
+              <li><a href="{{ url('/daily/setdrape/list') }}">เบิก-จ่ายเซตผ้าหัตถการ</a></li>
+              <!-- <li><a href="{{ url('/daily/sentin/list') }}">ส่งเซตผ้าไปหน่วยงาน (สำหรับงานซักฟอก)</a></li> -->
             </ul>
           </li>
           <li class="dropdown">
             <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
-              Stock ผ้า
+              Sub Stock
               <span class="caret"></span>
             </a>
             <ul class="dropdown-menu">
-              <li><a href="{{ url('/po') }}">ผ้าทั่วไป</a></li>
-              <li><a href="#">ผ้าผ่าตัด</a></li>
+              <li><a href="{{ url('/drape/gen/list') }}">ผ้าผู้ป่วยทั่วไป</a></li>
+              <li><a href="{{ url('/drape/vip/list') }}">ผ้าผู้ป่วยห้องพิเศษ</a></li>
+              <li><a href="{{ url('/drape/baby/list') }}">ผ้าผู้ป่วยเด็ก</a></li>
+              <li><a href="{{ url('/drape/or/list') }}">ผ้าผ่าตัด</a></li>
+              <li><a href="{{ url('/drape/lr/list') }}">ผ้าห้องคลอด</a></li>
+              <li><a href="{{ url('/drape/den/list') }}">ผ้าทันตกรรม</a></li>
+              <li><a href="{{ url('/drape/sup/list') }}">ผ้าเซตจ่ายกลาง</a></li>
+              <li><a href="{{ url('/drape/off/list') }}">ชุดปฏิบัติงานเจ้าหน้าที่</a></li>
+              <li><a href="{{ url('/drape/bag/list') }}">ถุงผ้าเปื้อน</a></li>
+              <li><a href="{{ url('/drape/oth/list') }}">อื่นๆ</a></li>
             </ul>
           </li>
           <li class="dropdown">
             <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
-              ทะเบียน
+              Stock Card
               <span class="caret"></span>
             </a>
             <ul class="dropdown-menu">
-              <li><a href="{{ url('/po') }}">ผ้าทั่วไป</a></li>
-              <li><a href="#">ผ้าผ่าตัด</a></li>
-              <li><a href="#">ผ้าห้องคลอด</a></li>
+              <li><a href="{{ url('/drape/gen/list') }}">ผ้าผู้ป่วยทั่วไป</a></li>
+              <li><a href="{{ url('/drape/vip/list') }}">ผ้าผู้ป่วยห้องพิเศษ</a></li>
+              <li><a href="{{ url('/drape/baby/list') }}">ผ้าผู้ป่วยเด็ก</a></li>
+              <li><a href="{{ url('/drape/or/list') }}">ผ้าผ่าตัด</a></li>
+              <li><a href="{{ url('/drape/lr/list') }}">ผ้าห้องคลอด</a></li>
+              <li><a href="{{ url('/drape/den/list') }}">ผ้าทันตกรรม</a></li>
+              <li><a href="{{ url('/drape/sup/list') }}">ผ้าเซตจ่ายกลาง</a></li>
+              <li><a href="{{ url('/drape/off/list') }}">ชุดปฏิบัติงานเจ้าหน้าที่</a></li>
+              <li><a href="{{ url('/drape/bag/list') }}">ถุงผ้าเปื้อน</a></li>
+              <li><a href="{{ url('/drape/oth/list') }}">อื่นๆ</a></li>
             </ul>
           </li>
           <li class="dropdown">

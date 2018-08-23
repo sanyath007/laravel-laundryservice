@@ -12,4 +12,9 @@ class SentoutDailyDetail extends Model
     {
         return $this->belongsTo('App\SentoutDaily', 'sentout_daily_id', 'id');
     }
+
+    public function sentouttype()
+    {
+        return $this->belongsTo('App\SentoutType', 'sentout_type_id', 'sentout_type_id');
+    }
 }

@@ -43,6 +43,10 @@
 	
 	<script src="{{ asset('/js/app.js') }}"></script>
 	<script src="{{ asset('/js/mainCtrl.js') }}"></script>
+	<script src="{{ asset('/js/sentinCtrl.js') }}"></script>
+	<script src="{{ asset('/js/sentoutCtrl.js') }}"></script>
+	<script src="{{ asset('/js/receivedCtrl.js') }}"></script>
+	<script src="{{ asset('/js/setdrapeCtrl.js') }}"></script>
 
 </head>
 <body ng-app="app" ng-controller="mainCtrl">

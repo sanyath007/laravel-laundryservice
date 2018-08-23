@@ -4,9 +4,9 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Stock extends Model
+class Substock extends Model
 {
-    protected $table = 'stocks';
+    protected $table = 'substocks';
 
     // public function cate()
     // {

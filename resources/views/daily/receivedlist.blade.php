@@ -8,7 +8,7 @@
         <span>ยอดรับผ้าจากโรงงาน</span>
         <a href="{{ url('daily/received/form') }}" class="btn btn-primary pull-right">
           <i class="fa fa-plus" aria-hidden="true"></i>
-          New
+          รับผ้า
         </a>
     </div>
 
@@ -44,39 +44,41 @@
                         <!-- <th style="text-align: center; width: 5%;">Actions</th> -->
                     </tr>
 
-                    @foreach($drapes as $drape)
+                    @foreach($drapeCates as $drapeCate)
                         <tr>
-                            <td style="text-align: center;">{{ $drape->id }}</td>
-                            <td>{{ $drape->name }}</td>
-                            <td style="text-align: center;">
-                                <span class="label label-primary btn-sm">
-                                    {{ number_format($drape->amount) }}
-                                </span>
-                            </td>
-                            
-                            <?php for($d=1; $d <= 31; $d++): ?>
-                                <?php $received = DB::table("received_daily")
-                                                    ->select('*')
-                                                    ->join('received_daily_detail', 'received_daily.id', '=', 'received_daily_detail.received_daily_id')  
-                                                    ->where(['received_daily.date' => $_month. '-' .$d])
-                                                    ->where(['received_daily_detail.drape_id' => $drape->id])
-                                                    ->first();
-                                ?>
-
-                                <td style="text-align: center;">
-                                    <?=(($received) ? $received->amount : '') ?>
-                                </td>
-                            <?php endfor; ?>
-
-                            <!-- <td style="text-align: center;">
-                                <a href="{{$drape->id}}" class="btn btn-warning btn-xs">
-                                    <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
-                                </a>
-                                <a href="{{$drape->id}}" class="btn btn-danger btn-xs">
-                                    <i class="fa fa-times" aria-hidden="true"></i>
-                                </a>
-                            </td> -->
+                            <td colspan="34" style="background-color: #D8D8D8;">{{ $drapeCate->drape_cate_name }}</td>
                         </tr>
+
+                        @foreach($drapes as $drape)
+                            @if($drape->drape_cate == $drapeCate->drape_cate_id)
+    
+                                <tr>
+                                    <td style="text-align: center;">{{ $drape->id }}</td>
+                                    <td>{{ $drape->name }}</td>
+                                    <td style="text-align: center;">
+                                        <span class="label label-primary btn-sm">
+                                            {{ number_format($drape->amount) }}
+                                        </span>
+                                    </td>
+                                    
+                                    <?php for($d=1; $d <= 31; $d++): ?>
+                                        <?php $received = DB::table("received_daily")
+                                                            ->select('*')
+                                                            ->join('received_daily_detail', 'received_daily.id', '=', 'received_daily_detail.received_daily_id')  
+                                                            ->where(['received_daily.date' => $_month. '-' .$d])
+                                                            ->where(['received_daily_detail.drape_id' => $drape->id])
+                                                            ->first();
+                                        ?>
+
+                                        <td style="text-align: center;">
+                                            <?=(($received) ? $received->amount : '') ?>
+                                        </td>
+                                    <?php endfor; ?>
+
+                                </tr>
+
+                            @endif
+                        @endforeach
                     @endforeach
 
                     <tr>

@@ -1,10 +1,10 @@
 @extends('layouts.main')
 
 @section('content')
-<div class="container-fluid" ng-controller="sentinCtrl">
+<div class="container-fluid" ng-controller="setdrapeCtrl">
     <!-- page title -->
     <div class="page__title">
-        <span>ส่งเบิกผ้าจากหน่วยงาน</span>
+        <span>ยอดเบิกเซตผ้ารายวัน</span>
     </div>
 
     <hr />
@@ -12,13 +12,13 @@
 
     <div class="row">
         <div class="col-md-12">
-            <form action="{{ url('daily/sentin/add') }}" method="POST" ng-submit="submitSentinForm()">
+            <form action="{{ url('daily/setdrape/add') }}" method="POST" ng-submit="submitSetdrapeForm()">
                 {{ csrf_field() }}
 
                 <div class="col-md-6">
                     <div class="form-group">
                         <label for="">คลัง</label>
-                        <select id="_stock" name="_stock" class="form-control" ng-change="loadDrapeforWard()" ng-model="stocks">
+                        <select id="_stock" name="_stock" class="form-control" ng-change="loadSetforWard()" ng-model="stocks">
                             <option value="">-- กรุณาเลือก --</option>
                             @foreach ($stocks as $stock)
                                 <option value="{{ $stock->id }}">{{ $stock->stock_name }}</option>
@@ -51,20 +51,27 @@
                 <table class="table table-striped">
                     <tr>
                         <th style="text-align: center; width: 4%;">#</th>
-                        <th style="text-align: left;">รายการผ้า</th>
-                        <th style="text-align: center; width: 10%;">Max stock</th>
+                        <th style="text-align: left;">รายการเซตผ้า</th>
+                        <th style="text-align: center; width: 10%;">จำนวน stock</th>
                         <th style="text-align: center; width: 10%;">จำนวนเบิก</th>
                         <th style="text-align: center; width: 20%;">หมายเหตุ</th>
                     </tr>
 
-                    <tr ng-repeat="(index, data) in drapeforward">
+                    <tr ng-repeat="(index, data) in setforward">
                         <td style="text-align: center;">@{{ data.id }}</td>
-                        <td>@{{ data.name }}</td>
-                        <td></td>
+                        <td>@{{ data.set_name }}</td>
+                        <td style="text-align: center;">
+                            <input  type="text" 
+                                    id="@{{ data.id + '_stock' }}" 
+                                    name="@{{ data.id + '_stock' }}"
+                                    class="form-control" 
+                                    style="text-align: center;">
+                        </td>
                         <td style="text-align: center;">
                             <input  type="text" 
                                     id="@{{ data.id + '_request' }}" 
                                     name="@{{ data.id + '_request' }}"
+                                    ng-blur="calculateTotalRequest()"
                                     class="form-control" 
                                     style="text-align: center;">
                         </td>
@@ -83,6 +90,7 @@
                     </div>
                 </div>
                 
+                <input type="hidden" id="total_request" name="total_request">
             </form>
         </div>
     </div>

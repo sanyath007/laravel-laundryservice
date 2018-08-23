@@ -2,13 +2,13 @@
 
 @section('content')
 
-<div class="container-fluid">
+<div class="container-fluid" ng-controller="sentinCtrl">
     <!-- page title -->
     <div class="page__title">
         <span>ยอดส่งผ้าไปหน่วยงาน</span>
         <a href="{{ url('daily/sentin/form') }}" class="btn btn-primary pull-right">
           <i class="fa fa-plus" aria-hidden="true"></i>
-          New
+          ส่งผ้า
         </a>
     </div>
 

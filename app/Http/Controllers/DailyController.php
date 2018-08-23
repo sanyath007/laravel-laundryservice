@@ -5,27 +5,35 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Input;
 use App\Drape;
+use App\Set;
+use App\SetDrape;
 use App\DrapeCate;
 use App\DrapeType;
-use App\Stock;
+use App\Substock;
 use App\ReceivedDaily;
 use App\ReceivedDailyDetail;
 use App\SentinDaily;
 use App\SentinDailyDetail;
 use App\SentoutDaily;
 use App\SentoutDailyDetail;
+use App\SentoutType;
+use App\SetdrapeDaily;
+use App\SetdrapeDailyDetail;
 
 class DailyController extends Controller
 {
     public function receivedlist ()
     {
     	return view('daily.receivedlist', [
-    		'drapes' => Drape::whereIn('drape_cate', ['1','2','4','5','6','7','99'])
+    		'drapeCates' => DrapeCate::where('status','=', '1')
+                                ->whereNotIn('drape_cate_id',['14'])
+                                ->get(),
+            'drapes' => Drape::whereIn('drape_cate', ['1','2','4','5','6','7','9','10','11','12','13','99'])
     							->where('status','<>', '0')
     							// ->orderBy('drape_cate', 'ASC')
     							->orderBy('sort', 'ASC')
     							->get(),
-    		'stocks' => Stock::where('id','<>','1')->get(),
+    		'stocks' => Substock::where('id','<>','1')->get(),
     		'_month' => (!Input::get('_month')) ? date('Y-m') : Input::get('_month'),
     	]);
     }
@@ -33,18 +41,21 @@ class DailyController extends Controller
     public function receivedform ()
     {
     	return view('daily.receivedform', [
-    		'drapes' => Drape::whereIn('drape_cate', ['1','2','4','5','6','7','99'])
+            'drapeCates' => DrapeCate::where('status','=', '1')
+                                ->whereNotIn('drape_cate_id',['14'])
+                                ->get(),
+    		'drapes' => Drape::whereIn('drape_cate', ['1','2','4','5','6','7','9','10','11','12','13','99'])
                                 ->where('status','<>', '0')
     							// ->orderBy('drape_cate', 'ASC')
     							->orderBy('sort', 'ASC')
     							->get(),
-    		'stocks' => Stock::all(),
+    		'stocks' => Substock::all(),
     	]);
     }
 
     public function receivedadd(Request $req)
     {	
-    	$drapes = Drape::whereIn('drape_cate', ['1','2','4','5','6','7','99'])
+    	$drapes = Drape::whereIn('drape_cate', ['1','2','4','5','6','7','9','10','11','12','13','99'])
     							->where('status','<>', '0')
     							// ->orderBy('drape_cate', 'ASC')
     							->orderBy('sort', 'ASC')
@@ -52,8 +63,10 @@ class DailyController extends Controller
 
     	$received = new ReceivedDaily();
     	$received->date = $req['received_date'];
-    	$received->weight = $req['weight'];
-    	$received->return = $req['return'];
+        $received->invoice = $req['invoice'];
+    	$received->total_weight = $req['total_weight'];
+        $received->repeat_weight = $req['repeat_weight'];
+    	$received->defect_weight = $req['defect_weight'];
     	$received->remark = $req['remark'];
 
     	if ($received->save()) {
@@ -77,80 +90,267 @@ class DailyController extends Controller
 
     public function sentinlist ()
     {
-    	return view('daily.sentinlist', [
-    		'drapes' => Drape::whereIn('drape_cate', ['1','2','4','5','6','7','99'])
+        return view('daily.sentinlist', [
+            'drapes' => Drape::whereIn('drape_cate', ['1','2','4','5','6','7','9','10','11','12','13','99'])
                                 ->where('status','<>', '0')
-    							// ->orderBy('drape_cate', 'ASC')
+                                // ->orderBy('drape_cate', 'ASC')
                                 ->orderBy('sort', 'ASC')
-    							->get(),
-    		'stocks' => Stock::where('id','<>','1')->get(),
-    		'_month' => (!Input::get('_month')) ? date('Y-m') : Input::get('_month'),
-    		'_stock' => (!Input::get('_stock')) ? '' : Input::get('_stock'),
-    	]);
+                                ->get(),
+            'stocks' => Substock::where('id','<>','1')->get(),
+            '_month' => (!Input::get('_month')) ? date('Y-m') : Input::get('_month'),
+            '_stock' => (!Input::get('_stock')) ? '' : Input::get('_stock'),
+        ]);
     }
 
     public function sentinform ()
     {
     	return view('daily.sentinform', [
-    		'drapes' => Drape::whereIn('drape_cate', ['1','2','4','5','6','7','99'])
+    		'drapes' => Drape::whereIn('drape_cate', ['1','2','4','5','6','7','9','10','11','12','13','99'])
                                 ->where('status','<>', '0')
     							// ->orderBy('drape_cate', 'ASC')
                                 ->orderBy('sort', 'ASC')
     							->get(),
-    		'stocks' => Stock::where('id','<>','1')->get(),
+    		'stocks' => Substock::where('id','<>','1')->get(),
     	]);
+    }
+
+    public function sentinform2 ($id)
+    {
+        $sentins = \DB::table("sentin_daily")
+                        ->where(['sentin_daily.id' => $id])
+                        ->get();
+
+        $stock = Substock::where('id','=',$sentins[0]->stock_id)->first();        
+        $drape_cates = explode(',', $stock->drape_cate);
+
+        return view('daily.sentinform2', [
+            'stocks'    => Substock::where('id','<>','1')->get(),
+            'drapes'    => Drape::whereIn('drape_cate', $drape_cates)
+                                ->where('status','<>', '0')
+                                ->orderBy('sort', 'ASC')
+                                ->get(),
+            'sentins'   => $sentins,
+            '_stock'    => $sentins[0]->stock_id,
+        ]);
     }
 
     public function sentinadd(Request $req)
     {	
-    	$drapes = Drape::whereIn('drape_cate', ['1','2','4','5','6','7','99'])
+        date_default_timezone_set('Asia/Bangkok');
+    	$drapes = Drape::whereIn('drape_cate', ['1','2','4','5','6','7','9','10','11','12','13','99'])
                                 ->where('status','<>', '0')
     							// ->orderBy('drape_cate', 'ASC')
                                 ->orderBy('sort', 'ASC')
     							->get();
 
     	$sentin = new SentinDaily();
-    	$sentin->date = $req['sent_date'];
-    	$sentin->stock_id = $req['stock'];
+        $sentin->date = $req['request_time'];
+        // $sentin->request_user = $req['request_user'];
+    	$sentin->request_time = $req['request_time']. ' ' .date("h:i:s");
+    	$sentin->stock_id = $req['_stock'];
     	$sentin->patient_num = $req['patient_num'];
-    	$sentin->remark = $req['remark'];
+        $sentin->remark = $req['remark'];
+    	
+        if($sentin->save()) {
+            $sentinDailyLastId = $sentin->id;
 
-    	foreach ($drapes as $drape) {
-    		$sentinDailyLastId = $sentin->id;
-
-    		if ($req[$drape->id. '_amount']) {
-    			$detail = new SentinDailyDetail();
-    			$detail->sentin_daily_id = $sentinDailyLastId;
-    			$detail->drape_id = $drape->id;
-    			$detail->amount = $req[$drape->id. '_amount'];
-    			$detail->remark = $req[$drape->id. '_remark'];
-    			$detail->save();
-    		}
-    	}
+            foreach ($drapes as $drape) {
+                if ($req[$drape->id. '_request']) {
+                    $detail = new SentinDailyDetail();
+                    $detail->sentin_daily_id = $sentinDailyLastId;
+                    $detail->drape_id = $drape->id;
+                    $detail->request_amt = $req[$drape->id. '_request'];
+                    $detail->remark = $req[$drape->id. '_remark'];
+                    $detail->save();
+                }
+            }
+        }
 
     	return redirect('daily/sentin/list');
+    }
+
+    public function sentinadd2(Request $req)
+    {   
+        date_default_timezone_set('Asia/Bangkok');
+        $drapes = Drape::whereIn('drape_cate', ['1','2','4','5','6','7','9','10','11','12','13','99'])
+                                ->where('status','<>', '0')
+                                ->orderBy('sort', 'ASC')
+                                ->get();
+        
+        $sentin = SentinDaily::find($req['_id']);
+        // $sentin->sent_user = $req['sent_user'];
+        $sentin->sent_time = $req['sent_time']. ' ' .date("h:i:s");
+
+        if($sentin->save()) {            
+            foreach ($drapes as $drape) {
+                if ($req[$drape->id. '_sent']) {
+                    $detail = SentinDailyDetail::where(['sentin_daily_id' => $req['_id']])
+                                                ->where(['drape_id' => $drape->id])
+                                                ->first();
+
+                    $detail->sent_amt = $req[$drape->id. '_sent'];
+                    $detail->remark = $req[$drape->id. '_remark'];
+                    $detail->save();
+                }
+            }
+        }
+
+        return redirect('daily/sentin/stock');
+    }
+
+    public function sentinstock ()
+    {   
+        $_stock = Input::get('_stock');
+        $_month = Input::get('_month');
+
+        if ($_stock) {
+            $stock = Substock::where('id','=',$_stock)->first();        
+            $drape_cates = explode(',', $stock->drape_cate);
+            $drapes = Drape::whereIn('drape_cate', $drape_cates)
+                                ->where('status','<>', '0')
+                                ->orderBy('sort', 'ASC')
+                                ->get();
+        } else {
+            $drapes = Drape::whereIn('drape_cate', ['1','2','4','5','6','7','99'])
+                                ->where('status','<>', '0')
+                                ->orderBy('sort', 'ASC')
+                                ->get();
+        }
+
+        return view('daily.sentinstock', [
+            'stocks' => Substock::where('id','<>','1')->get(),
+            '_month' => (!$_month) ? date('Y-m') : $_month,
+            '_stock' => (!$_stock) ? '' : $_stock,
+            'drapes' => $drapes,
+        ]);
+    }
+
+    public function setdrapelist ()
+    {
+        return view('daily.setdrapelist', [
+            'sets'      => Set::orderBy('id', 'ASC')->get(),
+            'stocks'    => Substock::whereIn('id', ['13', '14'])->get(),
+            '_month'    => (!Input::get('_month')) ? date('Y-m') : Input::get('_month'),
+            '_stock'    => (!Input::get('_stock')) ? '' : Input::get('_stock'),
+        ]);
+    }
+
+    public function setdrapeform ()
+    {
+        return view('daily.setdrapeform', [
+            'stocks'    => Substock::whereIn('id', ['13', '14'])->get(),
+            'sets'      => Set::orderBy('id', 'ASC')->get(),
+            // '_stock'    => $sentins[0]->stock_id,
+        ]);
+    }
+
+    public function setdrapeadd (Request $req)
+    {   
+        date_default_timezone_set('Asia/Bangkok');
+
+        if ($req['_stock'] == '14'){
+            $sets = Set::where(['set_type' => '1'])->orderBy('id', 'ASC')->get();
+        } else if ($req['_stock'] == '13'){
+            $sets = Set::where(['set_type' => '2'])->orderBy('id', 'ASC')->get();
+        }
+
+        $setdrape = new SetdrapeDaily();
+        $setdrape->date = $req['request_time'];
+        // $setdrape->request_user = $req['request_user'];
+        $setdrape->request_time = $req['request_time']. ' ' .date("h:i:s");
+        $setdrape->stock_id = $req['_stock'];
+        $setdrape->patient_num = $req['patient_num'];
+        $setdrape->remark = $req['remark'];
+        
+        if($setdrape->save()) {
+            $setdrapeDailyLastId = $setdrape->id;
+
+            foreach ($sets as $set) {
+                $set_id = $set->id;
+
+                if ($req[$set_id. '_request']) {
+                    $detail = new SetdrapeDailyDetail();
+                    $detail->setdrape_daily_id = $setdrapeDailyLastId;
+                    $detail->set_id = $set_id;
+                    $detail->stock_amt = $req[$set_id. '_stock'];
+                    $detail->request_amt = $req[$set_id. '_request'];
+                    $detail->remark = $req[$set_id. '_remark'];
+                    $detail->save();
+                }
+            }
+        }
+
+        return redirect('daily/setdrape/list');
+    }
+
+    public function setdrapeform2 ($_stock, $id)
+    {
+        if ($_stock == '14'){
+            $sets = Set::where(['set_type' => '1'])->orderBy('id', 'ASC')->get();
+        } else if ($_stock == '13'){
+            $sets = Set::where(['set_type' => '2'])->orderBy('id', 'ASC')->get();
+        }
+
+        return view('daily.setdrapeform2', [
+            'stocks'    => Substock::whereIn('id', ['13', '14'])->get(),
+            '_stock'    => $_stock,
+            'setdrape'  => SetdrapeDaily::find($id),
+            'sets'      => $sets,
+        ]);
+    }
+
+    public function setdrapeadd2 (Request $req)
+    {   
+        date_default_timezone_set('Asia/Bangkok');
+
+        if ($req['_stock'] == '14'){
+            $sets = Set::where(['set_type' => '1'])->orderBy('id', 'ASC')->get();
+        } else if ($req['_stock'] == '13'){
+            $sets = Set::where(['set_type' => '2'])->orderBy('id', 'ASC')->get();
+        }
+
+        $setdrape = SetdrapeDaily::find($req['_id']);
+        $setdrape->request_time = $req['sent_time']. ' ' .date("h:i:s");
+        
+        if($setdrape->save()) {
+            foreach ($sets as $set) {
+                $set_id = $set->id;
+
+                if ($req[$set_id. '_sent']) {
+                    $detail = SetdrapeDailyDetail::where(['setdrape_daily_id' => $req['_id']])
+                                                    ->where(['set_id' => $set->id])
+                                                    ->first();
+                                                    
+                    $detail->sentin_amt = $req[$set_id. '_sent'];
+                    // $detail->stock_amt = $req[$set_id. '_stock'];
+                    $detail->remark = $req[$set_id. '_remark'];
+                    $detail->save();
+                }
+            }
+        }
+
+        // return redirect('daily/setdrape/list');
     }
 
     public function sentoutlist ()
     {
     	return view('daily.sentoutlist', [
-    		'drapecates' => DrapeCate::orderBy('drape_cate_id', 'ASC')
-    									->get(),
-    		'_month' => (!Input::get('_month')) ? date('Y-m') : Input::get('_month'),
+    		'sentoutTypes'  => SentoutType::orderBy('sentout_type_id', 'ASC')->get(),
+    		'_month'        => (!Input::get('_month')) ? date('Y-m') : Input::get('_month'),
     	]);
     }
 
     public function sentoutform ()
     {
     	return view('daily.sentoutform', [
-    		'drapecates' => DrapeCate::orderBy('drape_cate_id', 'ASC')
+    		'sentoutTypes' => SentoutType::orderBy('sentout_type_id', 'ASC')
     									->get()
     	]);
     }
 
     public function sentoutadd(Request $req)
     {	
-    	$drapecates = DrapeCate::orderBy('drape_cate_id', 'ASC')
+    	$sentoutTypes = SentoutType::orderBy('sentout_type_id', 'ASC')
     								->get();
 
     	$sentout = new SentoutDaily();
@@ -158,24 +358,38 @@ class DailyController extends Controller
     	$sentout->invoice_no = $req['invoice'];
     	$sentout->total = $req['total'];
     	$sentout->return = $req['return'];
-    	// $sentout->remark = $req['remark'];
     	
     	if ($sentout->save()) {
     		$sentoutDailyLastId = $sentout->id;
 
-    		foreach ($drapecates as $drapecate) {
-	    		if ($req[$drapecate->drape_cate_id. '_amount']) {
+    		foreach ($sentoutTypes as $sentoutType) {
+                $sentoutTypeId = $sentoutType->sentout_type_id;
+
+	    		if ($req[$sentoutTypeId. '_amount']) {
+                    // dd($sentoutType);
 	    			$detail = new SentoutDailyDetail();
 	    			$detail->sentout_daily_id = $sentoutDailyLastId;
-	    			$detail->drape_cate_id = $drapecate->drape_cate_id;
-	    			$detail->amount = $req[$drapecate->drape_cate_id. '_amount'];
-	    			// $detail->return = $req[$drapecate->drape_cate_id. '_return'];
-	    			$detail->remark = $req[$drapecate->drape_cate_id. '_remark'];
+	    			$detail->sentout_type_id = $sentoutTypeId;
+	    			$detail->amount = $req[$sentoutTypeId. '_amount'];
+	    			// $detail->return = $req[$sentoutTypeId. '_return'];
+	    			$detail->remark = $req[$sentoutTypeId. '_remark'];
 	    			$detail->save();
 	    		}
 	    	}
     	}
 
     	return redirect('daily/sentout/list');
+    }
+
+    public function ajax ($drape_id)
+    {
+        $sentin = DB::table("sentin_daily")
+                        ->select('*')
+                        ->join('sentin_daily_detail', 'sentin_daily.id', '=', 'sentin_daily_detail.sentin_daily_id')  
+                        ->where(['sentin_daily.date' => $_month. '-' .$d])
+                        ->where(['sentin_daily_detail.drape_id' => $drape_id])
+                        ->first();
+
+        return $sentin;
     }
 }

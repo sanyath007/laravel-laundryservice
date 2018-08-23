@@ -1,10 +1,10 @@
 @extends('layouts.main')
 
 @section('content')
-<div class="container-fluid">
+<div class="container-fluid" ng-controller="sentoutCtrl">
     <!-- page title -->
     <div class="page__title">
-        <span>ยอดส่งผ้าไปโรงงาน</span>
+        <span>แบบส่งผ้าไปโรงงาน</span>
     </div>
 
     <hr />
@@ -12,7 +12,7 @@
 
     <div class="row">
         <div class="col-md-12">
-            <form action="{{ url('daily/sentout/add') }}" method="POST">
+            <form action="{{ url('daily/sentout/add') }}" method="POST" ng-submit="submitSentoutForm()">
                 {{ csrf_field() }}                
 
                 <div class="col-md-6">
@@ -24,7 +24,7 @@
 
                 <div class="col-md-6">
                     <div class="form-group">
-                        <label for="">บิล เล่มที่/เลขที่</label>
+                        <label for="">เลขที่ใบส่งผ้า</label>
                         <input type="text" id="invoice" name="invoice" class="form-control">
                     </div>
                 </div>
@@ -34,36 +34,88 @@
                         <th style="text-align: center; width: 4%;">#</th>
                         <th style="text-align: left;">รายการผ้า</th>
                         <th style="text-align: center; width: 10%;">จำนวน นน. (กก.)</th>
+                        <th style="text-align: center; width: 10%;">จำนวนชิ้น (ผืน)</th>
                         <th style="text-align: center; width: 25%;">หมายเหตุ</th>
                     </tr>
 
-                    @foreach($drapecates as $drapecate)
-                    <tr>
-                        <td style="text-align: center;">{{ $drapecate->drape_cate_id }}</td>
-                        <td>{{ $drapecate->drape_cate_name }}</td>
+                    @foreach($sentoutTypes as $sentoutType)
+
+                        <tr>
                             <td style="text-align: center;">
-                                <input type="text" id="{{ $drapecate->drape_cate_id. '_amount' }}" name="{{ $drapecate->drape_cate_id. '_amount' }}" class="form-control" style="text-align: center;">
+                                {{ $sentoutType->sentout_type_id }}
                             </td>
+                            <td>
+                                {{ $sentoutType->sentout_type_name . ' (' . $sentoutType->count_method_desc . ')' }}
+                            </td>
+                            
+                            @if($sentoutType->count_method == '1')
+                                <td style="text-align: center;">
+                                    <input  type="text" 
+                                            id="{{ $sentoutType->sentout_type_id. '_amount' }}" 
+                                            name="{{ $sentoutType->sentout_type_id. '_amount' }}" 
+                                            class="form-control" 
+                                            style="text-align: center;"
+                                            ng-blur="calculateAllWeight()">
+                                </td>
+
+                                <td style="text-align: center;">&nbsp;</td>
+                            @endif
+
+                            @if($sentoutType->count_method == '2')
+                                <td style="text-align: center;">&nbsp;</td>
+                                <td style="text-align: center;">
+                                    <input  type="text" 
+                                            id="{{ $sentoutType->sentout_type_id. '_amount' }}" 
+                                            name="{{ $sentoutType->sentout_type_id. '_amount' }}" 
+                                            class="form-control" 
+                                            style="text-align: center;">
+                                </td>
+                            @endif
+                            
+                            @if($sentoutType->count_method == '3')
+                                <td style="text-align: center;">
+                                    <input  type="text" 
+                                            id="{{ $sentoutType->sentout_type_id. '_amount' }}" 
+                                            name="{{ $sentoutType->sentout_type_id. '_amount' }}" 
+                                            class="form-control" 
+                                            style="text-align: center;">
+                                </td>
+                                <td style="text-align: center;">
+                                    <input  type="text" 
+                                            id="{{ $sentoutType->sentout_type_id. '_amount' }}" 
+                                            name="{{ $sentoutType->sentout_type_id. '_amount' }}" 
+                                            class="form-control" 
+                                            style="text-align: center;">
+                                </td>
+                            @endif
                             <td style="text-align: center;">
-                                <input type="text" id="{{ $drapecate->drape_cate_id. '_remark' }}" name="{{ $drapecate->drape_cate_id. '_remark' }}" class="form-control">
+                                <input  type="text" 
+                                        id="{{ $sentoutType->sentout_type_id. '_remark' }}" 
+                                        name="{{ $sentoutType->sentout_type_id. '_remark' }}" 
+                                        class="form-control">
                             </td>
                         </tr>
+
                     @endforeach
 
                     <tr>
                         <td colspan="2" style="text-align: right;"><b>น้ำหนักรวม</b></td>
                         <td style="text-align: center;">
-                            <input type="text" id="total" name="total" class="form-control" style="text-align: center;">
+                            <input  type="text" 
+                                    id="total" 
+                                    name="total" 
+                                    class="form-control" 
+                                    style="text-align: center;">
                         </td>
                         <td>&nbsp;</td>
                     </tr>
-                    <tr>
+                    <!-- <tr>
                         <td colspan="2" style="text-align: right;"><b>ซักซ้ำ</b></td>
                         <td style="text-align: center;">
                             <input type="text" id="return" name="return" class="form-control" style="text-align: center;">
                         </td>
                         <td>&nbsp;</td>
-                    </tr>
+                    </tr> -->
 
                 </table>
                 
