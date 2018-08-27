@@ -38,10 +38,6 @@
                     <label for="">ประจำเดือน :</label>
                     <input type="text" id="_month" name="_month" value="<?=$_month?>" class="form-control">
                 </div>
-
-                <button class="btn btn-primary">
-                    <i class="fa fa-search" aria-hidden="true"></i>
-                </button>
             </form><br>
 
             <!-- day 1 to 15 -->
@@ -266,6 +262,8 @@
             format: 'YYYY-MM',
             defaultDate: moment(dateNow),
             viewMode: "months"
+        }).on('dp.change', function(e) {
+            $("#frm_sentin_list").submit();
         });
 
         reloadSentin = function () {

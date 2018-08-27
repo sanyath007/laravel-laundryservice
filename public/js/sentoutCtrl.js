@@ -9,6 +9,10 @@ app.controller('sentoutCtrl', function($scope, $http, toaster, ModalService, CON
 	$scope.stocks = []
 	$scope.sentoutTotalWeight = 0
 
+	$scope.testFunc = function () {
+		console.log(event.target)
+	}
+
 	$scope.calculateAllWeight = function () {
 		console.log(event.target)
 		$scope.sentoutTotalWeight += ($("#"+event.target.id).val() == '') ? 0 : parseInt($("#"+event.target.id).val());

@@ -18,7 +18,7 @@
     <div class="row">
         <div class="col-md-12">
             
-            <form action="{{ url('daily/setdrape/add') }}" method="GET" class="form-inline">
+            <form id="frm_search" action="{{ url('daily/setdrape/add') }}" method="GET" class="form-inline">
                 {{ csrf_field() }}
 
                 <!-- <div class="form-group">
@@ -36,10 +36,6 @@
                     <label for="">ประจำเดือน :</label>
                     <input type="text" id="_month" name="_month" value="<?=$_month?>" class="form-control">
                 </div>
-
-                <button class="btn btn-primary">
-                    <i class="fa fa-search" aria-hidden="true"></i>
-                </button>
             </form><br>
 
             <!--เซตผ้า OR 1-15-->
@@ -502,6 +498,8 @@
             format: 'YYYY-MM',
             defaultDate: moment(dateNow),
             viewMode: "months"
+        }).on('dp.change', function(e) {
+            $("#frm_search").submit();
         });
     });
 </script>
