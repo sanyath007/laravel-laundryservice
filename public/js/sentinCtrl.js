@@ -14,11 +14,11 @@ app.controller('sentinCtrl', function($scope, $http, toaster, ModalService, CONF
 
 	$scope.requestTotal = 0;
 	$scope.submitSentinForm = function () {				
-		event.preventDefault()
 		console.log(event.target)
 		console.log($("#request_time").val())
 
 		if ($("#total").val() == 0) {
+			event.preventDefault()
 			toaster.pop('error', "", "กรุณากรอกข้อมูลก่อน !!!")
 		} else {
 			toaster.pop('success', "", "บันทึกข้อมูลเรียบร้อย !!!")
