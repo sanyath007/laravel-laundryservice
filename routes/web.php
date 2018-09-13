@@ -64,6 +64,7 @@ Route::group(['middleware' => ['web','auth']], function () {
     Route::get('/daily/sentout/list', 'DailyController@sentoutlist');
     Route::get('/daily/sentout/form', 'DailyController@sentoutform');
     Route::post('/daily/sentout/add', 'DailyController@sentoutadd');
+    Route::post('/daily/sentout/ajaxpostdetailitems', 'DailyController@ajaxpostdetailitems');
 
 
     Route::get('/daily/sentin/list', 'DailyController@sentinlist');
@@ -83,5 +84,7 @@ Route::group(['middleware' => ['web','auth']], function () {
 
     Route::get('/drape/ajaxdrape', 'DrapeController@ajaxdrape');
     Route::get('/drape/ajaxdrapeforstock/{substock}', 'DrapeController@ajaxdrapeforstock');
+
+    
     Route::get('/set/ajaxsetforstock/{substock}', 'SetController@ajaxsetforstock');
 });

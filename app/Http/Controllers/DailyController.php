@@ -382,6 +382,28 @@ class DailyController extends Controller
     	return redirect('daily/sentout/list');
     }
 
+    public function ajaxpostdetailitems(Request $req)
+    {
+        $resultChk = 0;
+        foreach (Input::all() as $item) {
+            $detailItem = new SentoutDailyDetailItem();
+            $detailItem->sentout_daily_id = $item['sentout_daily_id'];
+            $detailItem->return_type      = $item['return_type'];
+            $detailItem->drape_id         = $item['drape_id'];
+            $detailItem->amount           = $item['amount'];
+            // $detailItem->remark           = $item['remark'];
+            if($detailItem->save()){
+                $resultChk += 1; 
+            }
+        }
+
+        if($resultChk > 0){
+            return 'success'; 
+        } else {
+            return 'failure'; 
+        }
+    }
+
     public function ajax ($drape_id)
     {
         $sentin = DB::table("sentin_daily")

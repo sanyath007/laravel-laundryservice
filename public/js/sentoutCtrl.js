@@ -21,11 +21,11 @@ app.controller('sentoutCtrl', function($scope, $http, toaster, ModalService, CON
 	}
 
 	$scope.submitSentoutForm = function () {				
-		event.preventDefault()
 		console.log(event.target)
 		console.log($("#sentout_date").val())
 
 		if ($("#total").val() == 0) {
+			event.preventDefault()
 			toaster.pop('error', "", "กรุณากรอกข้อมูลก่อน !!!")
 			// return false
 		} else {
@@ -216,12 +216,14 @@ app.controller('sentoutCtrl', function($scope, $http, toaster, ModalService, CON
 		})
 	}
 
-	$scope.popUpDetailItems = function () {
+	$scope.popUpDetailItems = function (sdId, rType) {
 		$http.get(baseUrl + '/drape/ajaxdrape')
 	    .then(function (res) {
 	    	console.log(res)
 	    	$scope.allDrapes = res.data
 	    	console.log($scope.allDrapes)
+	    	$("#sd_id").val(sdId)
+	    	$("#r_type").val(rType)
 			$('#dlgDetailItems').modal('show')
 		})
 	}
@@ -229,10 +231,31 @@ app.controller('sentoutCtrl', function($scope, $http, toaster, ModalService, CON
 	$scope.dlgItemList = []
 	$scope.dlgAddItem = function () {
 		console.log(event)
+		console.log($("#dlgDrape option:selected").text())
+		console.log($("#dlgDrape option:selected").val())
 
 		$scope.dlgItemList.push({
-			drapeId: $("#dlgAmount").val(),
+			sentout_daily_id: $("#sd_id").val(),
+			return_type: $("#r_type").val(),
+			drape_id: $("#dlgDrape option:selected").val(),
+			drape_name: $("#dlgDrape option:selected").text(),
 			amount: $("#dlgAmount").val()
+		})
+
+		$("#dlgDrape option:selected").val(""),
+		$("#dlgAmount").val("")
+	}
+
+	$scope.dlgSaveItem = function () {
+		console.log(event)
+		console.log($scope.dlgItemList)
+
+		$http.post(baseUrl + '/daily/sentout/ajaxpostdetailitems', $scope.dlgItemList)
+		.then(function (res) {
+			console.log(res)
+			if(res.data=='success'){
+				$('#dlgDetailItems').modal('hide')
+			}
 		})
 	}
 })

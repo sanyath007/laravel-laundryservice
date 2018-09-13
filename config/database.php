@@ -57,11 +57,11 @@ return [
         # Our secondary database connection
         'person' => array(
             'driver'    => 'mysql',
-            'host' => 'localhost',
+            'host' => '192.168.20.4',
             'port' => env('DB_PORT', '3306'),
             'database'  => 'db_ksh',
             'username' => 'root',
-            'password' => '4621008811',
+            'password' => '1',
             'charset'   => 'utf8',
             'collation' => 'utf8_unicode_ci',
             'prefix'    => '',
