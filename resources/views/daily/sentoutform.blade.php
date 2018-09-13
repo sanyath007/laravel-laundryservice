@@ -81,11 +81,10 @@
                                             style="text-align: center;">
                                 </td>
                                 <td style="text-align: center;">
-                                    <input  type="text" 
-                                            id="{{ $sentoutType->sentout_type_id. '_amount' }}" 
-                                            name="{{ $sentoutType->sentout_type_id. '_amount' }}" 
-                                            class="form-control" 
-                                            style="text-align: center;">
+                                    <a  ng-click="popUpDetailItems()"
+                                        class="btn btn-info btn-xs">
+                                        <i class="fa fa-list" aria-hidden="true"></i>
+                                    </a>
                                 </td>
                             @endif
                             <td style="text-align: center;">
@@ -128,7 +127,104 @@
             </form>
         </div>
     </div>
+
+    <!-- Modal -->
+    <div class="modal fade" id="dlgDetailItems" tabindex="-1" role="dialog" aria-labelledby="" aria-hidden="true" data-backdrop="static" data-keyboard="false">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h4 class="modal-title" id="">เพิ่มข้อมูล</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-md-5">
+                            <div class="form-group">
+                                <select id="dlgDrape" class="form-control">
+                                    <option value="">-- กรุณาเลือกประเภทผ้า --</option>
+                                    <option ng-repeat="drape in allDrapes" value="@{{ drape.id }}">
+                                        @{{ drape.name }}
+                                    </option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-5">
+                            <div class="form-group">
+                                <input type="text" id="dlgAmount" class="form-control" placeholder="ระบุจำนวน (ชิ้น)">
+                            </div>
+                        </div>
+                        <div class="col-md-2">
+                            <div class="form-group">
+                                <button id="dlgAddItem" class="btn btn-success" ng-click="dlgAddItem()">เพิ่ม</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="table-responsive">
+                        <table class="table table-striped table-bordered">
+                            <thead>
+                                <tr>
+                                    <th style="width: 4%; text-align: center;">#</th>
+                                    <th>รายการผ้า</th>
+                                    <th style="width: 30%; text-align: center;">จำนวน (ชิ้น)</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr ng-repeat="(index, item) in dlgItemList">
+                                    <td>@{{ index + 1 }}</td>
+                                    <td>@{{ item.id }}</td>
+                                    <td>@{{ item.amount }}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div> 
+
+                    <ul class="pagination">
+                        <li>
+                            <a ng-click="paginate($event, dlgItemList.path)" aria-label="First">
+                                <span aria-hidden="true">First</span>
+                            </a>
+                        </li>
+
+                        <li ng-class="{ 'disabled': (dlgItemList.current_page === 1) }">
+                            <a  ng-click="paginate($event, dlgItemList.prev_page_url)" 
+                                aria-label="Prev">
+                                <span aria-hidden="true">Prev</span>
+                            </a>
+                        </li>                         
+                               
+                        <li ng-repeat="i in _.range(1, dlgItemList.last_page + 1)"
+                            ng-class="{ 'active': (dlgItemList.current_page === i) }">
+                            <a ng-click="paginate($event, dlgItemList.path + '?page=' + i)">
+                                @{{ i }}
+                            </a>
+                        </li>
+                                
+                        <li ng-class="{ 'disabled': (dlgItemList.current_page === dlgItemList.last_page) }">
+                            <a ng-click="paginate($event, dlgItemList.next_page_url)" aria-label="Next">
+                                <span aria-hidden="true">Next</span>
+                            </a>
+                        </li>
+
+                        <li>
+                            <a ng-click="paginate($event, dlgItemList.path + '?page=' + dlgItemList.last_page)" aria-label="Last">
+                                <span aria-hidden="true">Last</span>
+                            </a>
+                        </li>
+                    </ul> 
+
+                </div>
+                <!-- <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">
+                        Close
+                    </button>
+                </div> -->
+            </div>
+        </div>
+    </div>
+    <!-- Modal -->
 </div>
+
 <script>
     $(document).ready(function($) {
         var dateNow = new Date();

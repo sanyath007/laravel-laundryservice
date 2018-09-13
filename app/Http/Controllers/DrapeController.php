@@ -115,6 +115,17 @@ class DrapeController extends Controller
         ]);
     }
 
+    public function ajaxdrape ()
+    {
+        $drapes = Drape::where(['status' => '1'])
+                        // ->whereIn('drape_cate', $drape_types)
+                        ->orderBy('drape_cate','ASC')
+                        ->orderBy('sort','ASC')
+                        ->get();
+
+        return $drapes;
+    }
+
     public function ajaxdrapeforstock ($substock)
     {
         $substock = Substock::where(['id' => $substock])->get();

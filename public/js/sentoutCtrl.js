@@ -8,6 +8,7 @@ app.controller('sentoutCtrl', function($scope, $http, toaster, ModalService, CON
 	$scope.drapeforward = []
 	$scope.stocks = []
 	$scope.sentoutTotalWeight = 0
+	$scope.allDrapes = []
 
 	$scope.testFunc = function () {
 		console.log(event.target)
@@ -212,6 +213,26 @@ app.controller('sentoutCtrl', function($scope, $http, toaster, ModalService, CON
             // } else {
             //     toaster.pop('warning', "", res.data.msg);
             // }
+		})
+	}
+
+	$scope.popUpDetailItems = function () {
+		$http.get(baseUrl + '/drape/ajaxdrape')
+	    .then(function (res) {
+	    	console.log(res)
+	    	$scope.allDrapes = res.data
+	    	console.log($scope.allDrapes)
+			$('#dlgDetailItems').modal('show')
+		})
+	}
+
+	$scope.dlgItemList = []
+	$scope.dlgAddItem = function () {
+		console.log(event)
+
+		$scope.dlgItemList.push({
+			drapeId: $("#dlgAmount").val(),
+			amount: $("#dlgAmount").val()
 		})
 	}
 })

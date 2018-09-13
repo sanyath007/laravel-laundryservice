@@ -81,6 +81,7 @@ Route::group(['middleware' => ['web','auth']], function () {
     Route::post('/daily/setdrape/add2', 'DailyController@setdrapeadd2');
 
 
+    Route::get('/drape/ajaxdrape', 'DrapeController@ajaxdrape');
     Route::get('/drape/ajaxdrapeforstock/{substock}', 'DrapeController@ajaxdrapeforstock');
     Route::get('/set/ajaxsetforstock/{substock}', 'SetController@ajaxsetforstock');
 });

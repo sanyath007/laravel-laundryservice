@@ -18,7 +18,7 @@
     <div class="row">
         <div class="col-md-12">
             
-            <form id="frm_search" action="{{ url('daily/setdrape/add') }}" method="GET" class="form-inline">
+            <form id="frm_search" action="{{ url('daily/setdrape/list') }}" method="GET" class="form-inline">
                 {{ csrf_field() }}
 
                 <!-- <div class="form-group">
@@ -45,26 +45,26 @@
                         <th style="text-align: center; width: 2%" rowspan="2">#</th>
                         <th style="text-align: center; width: 10%" rowspan="2">รายการผ้า</th>
 
-                        <?php for($i=1; $i <= 15; $i++): ?>
-                            <th style="text-align: center;" colspan="3"><?=$i ?></th>
-                        <?php endfor; ?>
+                        @for($i=1; $i <= 15; $i++)
+                            <th style="text-align: center;" colspan="3">{{ $i }}</th>
+                        @endfor
                     </tr>
                     <tr>
-                        <?php for($i=1; $i <= 15; $i++): ?>
+                        @for($i=1; $i <= 15; $i++)
                             <th style="text-align: center;">ส</th>
                             <th style="text-align: center;">บ</th>
                             <th style="text-align: center;">จ</th>
-                        <?php endfor; ?>
+                        @endfor
                     </tr>
 
                     @foreach($sets as $set)
                         @if($set->set_type=='1')
 
                             <tr>
-                                <td style="text-align: center;">{{$set->id}}</td>
-                                <td>{{$set->set_name}}</td>
+                                <td style="text-align: center;">{{ $set->id }}</td>
+                                <td>{{ $set->set_name }}</td>
 
-                                <?php for($d=1; $d <= 15; $d++): ?>
+                                @for($d=1; $d <= 15; $d++)
                                     <?php $setdrape = DB::table("setdrape_daily")
                                                         ->select('*')
                                                         ->join('setdrape_daily_detail', 'setdrape_daily.id', '=', 'setdrape_daily_detail.setdrape_daily_id')  
@@ -83,7 +83,7 @@
                                         {{ ($setdrape) ? $setdrape->sentin_amt : '' }}
                                     </td>
 
-                                <?php endfor; ?>
+                                @endfor
                                 
                             </tr>
 
@@ -93,7 +93,7 @@
                     <tr>
                         <td colspan="2" style="text-align: center;">Actions</td>
 
-                        <?php for($d=1; $d <= 15; $d++): ?>
+                        @for($d=1; $d <= 15; $d++)
                             <?php $setOr1 = DB::table("setdrape_daily")  
                                                 ->where(['date' => $_month. '-' .$d])
                                                 ->where(['stock_id' => '14'])
@@ -138,13 +138,15 @@
                                     {{ csrf_field() }}
                                 </form>
 
-                                <a  href="{{ url('/daily/setdrape/form2') }}/14/{{ ($setOr1) ? $setOr1->id : '' }}" 
-                                    class="btn btn-primary btn-xs">
-                                    <i class="fa fa-reply" aria-hidden="true"></i>
-                                </a>                                   
+                                @if ($setOr1)
+                                    <a  href="{{ url('/daily/setdrape/form2') }}/14/{{ ($setOr1) ? $setOr1->id : '' }}" 
+                                        class="btn btn-primary btn-xs">
+                                        <i class="fa fa-reply" aria-hidden="true"></i>
+                                    </a>
+                                @endif                                 
                             </td>
 
-                        <?php endfor; ?>
+                        @endfor
                     </tr>
 
                 </table>
@@ -158,26 +160,26 @@
                         <th style="text-align: center; width: 2%" rowspan="2">#</th>
                         <th style="text-align: center; width: 10%" rowspan="2">รายการผ้า</th>
 
-                        <?php for($i=16; $i <= 31; $i++): ?>
-                            <th style="text-align: center;" colspan="3"><?=$i ?></th>
-                        <?php endfor; ?>
+                        @for($i=16; $i <= 31; $i++)
+                            <th style="text-align: center;" colspan="3">{{ $i }}</th>
+                        @endfor
                     </tr>
                     <tr>
-                        <?php for($i=16; $i <= 31; $i++): ?>
+                        @for($i=16; $i <= 31; $i++)
                             <th style="text-align: center;">ส</th>
                             <th style="text-align: center;">บ</th>
                             <th style="text-align: center;">จ</th>
-                        <?php endfor; ?>
+                        @endfor
                     </tr>
 
                     @foreach($sets as $set)
                         @if($set->set_type=='1')
 
                             <tr>
-                                <td style="text-align: center;">{{$set->id}}</td>
-                                <td>{{$set->set_name}}</td>
+                                <td style="text-align: center;">{{ $set->id }}</td>
+                                <td>{{ $set->set_name }}</td>
 
-                                <?php for($d=16; $d <= 31; $d++): ?>
+                                @for($d=16; $d <= 31; $d++)
                                     <?php $setdrape = DB::table("setdrape_daily")
                                                         ->select('*')
                                                         ->join('setdrape_daily_detail', 'setdrape_daily.id', '=', 'setdrape_daily_detail.setdrape_daily_id')  
@@ -196,7 +198,7 @@
                                         {{ ($setdrape) ? $setdrape->sentin_amt : '' }}
                                     </td>
 
-                                <?php endfor; ?>
+                                @endfor
                                 
                             </tr>
 
@@ -206,7 +208,7 @@
                     <tr>
                         <td colspan="2" style="text-align: center;">Actions</td>
 
-                        <?php for($d=16; $d <= 31; $d++): ?>
+                        @for($d=16; $d <= 31; $d++)
                             <?php $setOr2 = DB::table("setdrape_daily")  
                                                 ->where(['date' => $_month. '-' .$d])
                                                 ->where(['stock_id' => '14'])
@@ -250,13 +252,15 @@
                                     {{ csrf_field() }}
                                 </form>
 
-                                <a  href="{{ url('/daily/setdrape/form2') }}/14/{{ ($setOr2) ? $setOr2->id : '' }}" 
-                                    class="btn btn-primary btn-xs">
-                                    <i class="fa fa-reply" aria-hidden="true"></i>
-                                </a>                                   
+                                @if ($setOr2)
+                                    <a  href="{{ url('/daily/setdrape/form2') }}/14/{{ ($setOr2) ? $setOr2->id : '' }}" 
+                                        class="btn btn-primary btn-xs">
+                                        <i class="fa fa-reply" aria-hidden="true"></i>
+                                    </a>
+                                @endif                          
                             </td>
 
-                        <?php endfor; ?>
+                        @endfor
                     </tr>
 
                 </table>
@@ -270,26 +274,26 @@
                         <th style="text-align: center; width: 2%" rowspan="2">#</th>
                         <th style="text-align: center; width: 10%" rowspan="2">รายการผ้า</th>
 
-                        <?php for($i=1; $i <= 15; $i++): ?>
-                            <th style="text-align: center;" colspan="3"><?=$i ?></th>
-                        <?php endfor; ?>
+                        @for($i=1; $i <= 15; $i++)
+                            <th style="text-align: center;" colspan="3">{{ $i }}</th>
+                        @endfor
                     </tr>
                     <tr>
-                        <?php for($i=1; $i <= 15; $i++): ?>
+                        @for($i=1; $i <= 15; $i++)
                             <th style="text-align: center;">ส</th>
                             <th style="text-align: center;">บ</th>
                             <th style="text-align: center;">จ</th>
-                        <?php endfor; ?>
+                        @endfor
                     </tr>
 
                     @foreach($sets as $set)
                         @if($set->set_type=='2')
 
                             <tr>
-                                <td style="text-align: center;">{{$set->id}}</td>
-                                <td>{{$set->set_name}}</td>
+                                <td style="text-align: center;">{{ $set->id }}</td>
+                                <td>{{ $set->set_name }}</td>
 
-                                <?php for($d=1; $d <= 15; $d++): ?>
+                                @for($d=1; $d <= 15; $d++)
                                     <?php $setdrape = DB::table("setdrape_daily")
                                                         ->select('*')
                                                         ->join('setdrape_daily_detail', 'setdrape_daily.id', '=', 'setdrape_daily_detail.setdrape_daily_id')  
@@ -308,7 +312,7 @@
                                         {{ ($setdrape) ? $setdrape->sentin_amt : '' }}
                                     </td>
 
-                                <?php endfor; ?>
+                                @endfor
                                 
                             </tr>
 
@@ -318,7 +322,7 @@
                     <tr>
                         <td colspan="2" style="text-align: center;">Actions</td>
 
-                        <?php for($d=1; $d <= 15; $d++): ?>
+                        @for($d=1; $d <= 15; $d++)
                             <?php $setLr1 = DB::table("setdrape_daily")  
                                                 ->where(['date' => $_month. '-' .$d])
                                                 ->where(['stock_id' => '13'])
@@ -362,13 +366,15 @@
                                     {{ csrf_field() }}
                                 </form>
 
-                                <a  href="{{ url('/daily/setdrape/form2') }}/13/{{ ($setLr1) ? $setLr1->id : '' }}" 
-                                    class="btn btn-primary btn-xs">
-                                    <i class="fa fa-reply" aria-hidden="true"></i>
-                                </a>                                   
+                                @if ($setLr1)
+                                    <a  href="{{ url('/daily/setdrape/form2') }}/13/{{ ($setLr1) ? $setLr1->id : '' }}" 
+                                        class="btn btn-primary btn-xs">
+                                        <i class="fa fa-reply" aria-hidden="true"></i>
+                                    </a>
+                                @endif                              
                             </td>
 
-                        <?php endfor; ?>
+                        @endfor
                     </tr>
                 </table>
             </div>
@@ -381,26 +387,26 @@
                         <th style="text-align: center; width: 2%" rowspan="2">#</th>
                         <th style="text-align: center; width: 10%" rowspan="2">รายการผ้า</th>
 
-                        <?php for($i=16; $i <= 31; $i++): ?>
-                            <th style="text-align: center;" colspan="3"><?=$i ?></th>
-                        <?php endfor; ?>
+                        @for($i=16; $i <= 31; $i++)
+                            <th style="text-align: center;" colspan="3">{{ $i }}</th>
+                        @endfor
                     </tr>
                     <tr>
-                        <?php for($i=16; $i <= 31; $i++): ?>
+                        @for($i=16; $i <= 31; $i++)
                             <th style="text-align: center;">ส</th>
                             <th style="text-align: center;">บ</th>
                             <th style="text-align: center;">จ</th>
-                        <?php endfor; ?>
+                        @endfor
                     </tr>
 
                     @foreach($sets as $set)
                         @if($set->set_type=='2')
 
                             <tr>
-                                <td style="text-align: center;">{{$set->id}}</td>
-                                <td>{{$set->set_name}}</td>
+                                <td style="text-align: center;">{{ $set->id }}</td>
+                                <td>{{ $set->set_name }}</td>
 
-                                <?php for($d=16; $d <= 31; $d++): ?>
+                                @for($d=16; $d <= 31; $d++)
                                     <?php $setdrape = DB::table("setdrape_daily")
                                                         ->select('*')
                                                         ->join('setdrape_daily_detail', 'setdrape_daily.id', '=', 'setdrape_daily_detail.setdrape_daily_id')  
@@ -419,7 +425,7 @@
                                         {{ ($setdrape) ? $setdrape->sentin_amt : '' }}
                                     </td>
 
-                                <?php endfor; ?>
+                                @endfor
                                 
                             </tr>
 
@@ -429,7 +435,7 @@
                     <tr>
                         <td colspan="2" style="text-align: center;">Actions</td>
 
-                        <?php for($d=16; $d <= 31; $d++): ?>
+                        @for($d=16; $d <= 31; $d++)
                             <?php $setLr2 = DB::table("setdrape_daily")  
                                                 ->where(['date' => $_month. '-' .$d])
                                                 ->where(['stock_id' => '13'])
@@ -473,13 +479,15 @@
                                     {{ csrf_field() }}
                                 </form>
 
-                                <a  href="{{ url('/daily/setdrape/form2') }}/13/{{ ($setLr2) ? $setLr2->id : '' }}" 
-                                    class="btn btn-primary btn-xs">
-                                    <i class="fa fa-reply" aria-hidden="true"></i>
-                                </a>                                   
+                                @if ($setLr2)
+                                    <a  href="{{ url('/daily/setdrape/form2') }}/13/{{ ($setLr2) ? $setLr2->id : '' }}" 
+                                        class="btn btn-primary btn-xs">
+                                        <i class="fa fa-reply" aria-hidden="true"></i>
+                                    </a>
+                                @endif                          
                             </td>
 
-                        <?php endfor; ?>
+                        @endfor
                     </tr>
 
                 </table>

@@ -19,6 +19,7 @@ use App\SentoutDailyDetail;
 use App\SentoutType;
 use App\SetdrapeDaily;
 use App\SetdrapeDailyDetail;
+use App\SentoutDailyDetailItem;
 
 class DailyController extends Controller
 {
