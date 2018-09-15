@@ -202,7 +202,7 @@
         ];
         
         // Set connect db
-        $db = new PDO("mysql:host=localhost; dbname=laundry_db; charset=utf8", 'root', '4621008811');
+        $db = new PDO("mysql:host=192.168.20.4; dbname=laundry_db; charset=utf8", 'root', '1');
         $db->exec("set names utf8");
         $db->exec("COLLATE utf8_general_ci");
         

@@ -56,6 +56,7 @@ return [
 
         # Our secondary database connection
         'person' => array(
+<<<<<<< HEAD
             'driver'        => 'mysql',
             'host'          => env('DB_PS_HOST', '127.0.0.1'),
             'port'          => env('DB_PS_PORT', '3306'),
@@ -68,6 +69,19 @@ return [
             'prefix'        => '',
             'strict'        => false,
             'engine'        => null,
+=======
+            'driver'    => 'mysql',
+            'host' => '192.168.20.4',
+            'port' => env('DB_PORT', '3306'),
+            'database'  => 'db_ksh',
+            'username' => 'root',
+            'password' => '1',
+            'charset'   => 'utf8',
+            'collation' => 'utf8_unicode_ci',
+            'prefix'    => '',
+            'strict' => false,
+            'engine' => null,
+>>>>>>> f554c6aa8d6a13d4c8b25dee2c686235dc983b8d
         ),
 
         'hosxp' => array(

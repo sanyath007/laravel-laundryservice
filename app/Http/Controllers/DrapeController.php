@@ -118,7 +118,8 @@ class DrapeController extends Controller
     public function ajaxdrape ()
     {
         $drapes = Drape::where(['status' => '1'])
-                        // ->whereIn('drape_cate', $drape_types)
+                        ->whereNotIn('drape_cate', ['8','14','81'])
+                        ->whereNotIn('id', ['26','49','44','95'])
                         ->orderBy('drape_cate','ASC')
                         ->orderBy('sort','ASC')
                         ->get();
