@@ -49,7 +49,7 @@
               <li><a href="{{ url('/drape/oth/list') }}">อื่นๆ</a></li>
             </ul>
           </li>
-          <li class="dropdown">
+          <!-- <li class="dropdown">
             <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
               ตั้งค่าพื้นฐาน
               <span class="caret"></span>
@@ -64,7 +64,7 @@
               <li><a href="#">ผู้จัดจำหน่าย</a></li>
               <li><a href="#">อู่ซ่อมรถ</a></li>
             </ul>
-          </li>
+          </li> -->
           <!-- <li class="dropdown">
             <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
               ตั้งค่าระบบ
@@ -80,6 +80,22 @@
               <li><a href="#">One more separated link</a></li>
             </ul>
           </li> -->
+          <li class="dropdown">
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+              ข้อมูลการให้บริการ
+              <span class="caret"></span>
+            </a>
+            <ul class="dropdown-menu">
+              <li><a href="{{ url('/service/or') .'/'. date('Y-m') }}">ข้อมูลการให้บริการ OR</a></li>
+              <li><a href="{{ url('/service/ip') .'/'. date('Y-m-d') }}">ข้อมูลการให้บริการ IP</a></li>
+              <!-- <li><a href="#">สรุปยอดขายรายเดือน</a></li>
+              <li role="separator" class="divider"></li>
+              <li><a href="#">รายงานสต๊อกสินค้า</a></li>
+              <li role="separator" class="divider"></li>
+              <li><a href="#">รายงานลูกหนี้</a></li>
+              <li><a href="#">รายงานเจ้าหนี้</a></li> -->
+            </ul>
+          </li>
           <li class="dropdown">
             <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
               รายงาน
