@@ -91,4 +91,8 @@ Route::group(['middleware' => ['web','auth']], function () {
     // Service
     Route::get('/service/or/{_month}', 'ServiceController@orperday');
     Route::get('/service/ip/{_day}', 'ServiceController@ipperday');
+
+    // Stock card
+    Route::get('/stock/gen/list/{drape}', 'StockController@genlist');
+    Route::get('/stock/or/list/{drape}', 'StockController@orlist');
 });

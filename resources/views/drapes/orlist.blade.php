@@ -46,7 +46,7 @@
                             {{ $drape->id }}
                         </td>
                         <td>
-                            <a href="{{ url('/maintainedofdrape') }}/">
+                            <a href="{{ url('/stock/or/list') . '/' . $drape->id }}">
                                 {{ $drape->name }}
                             </a>
                         </td>

@@ -30,33 +30,33 @@
                         <th>หมายเหตุ</th>
                         <th style="width: 10%; text-align: center;">Actions</th>
                     </tr>
-                    @foreach($vehicles as $vehicle)
+                    @foreach($brings as $bring)
                     <tr>
                         <td style="text-align: center;">
-                            {{ $vehicle->vehicle_id }}
+                            {{ $bring->id }}
                         </td>
-                        <td>{{ $vehicle->cate->vehicle_cate_name }}</td>
-                        <td>{{ $vehicle->type->vehicle_type_name }}</td>
+                        <td>{{ $bring->cate->bring_cate_name }}</td>
+                        <td>{{ $bring->type->bring_type_name }}</td>
                         <td style="text-align: center;">
-                            {{ $vehicle->manufacturer->manufacturer_name }}
+                            {{ $bring->manufacturer->manufacturer_name }}
                         </td>
                         <td>
-                            รุ่น {{ $vehicle->model }}
-                            เครื่องยนต์ {{ $vehicle->fuel->fuel_type_name }} - ซีซี
-                            สี{{ $vehicle->color }} 
-                            ปี {{ $vehicle->year }}               
+                            รุ่น {{ $bring->model }}
+                            เครื่องยนต์ {{ $bring->fuel->fuel_type_name }} - ซีซี
+                            สี{{ $bring->color }} 
+                            ปี {{ $bring->year }}               
                         </td>
                         <td style="text-align: center;">
-                            {{ $vehicle->reg_no }} {{ $vehicle->changwat->short }}
+                            {{ $bring->reg_no }} {{ $bring->changwat->short }}
                         </td>            
-                        <td style="text-align: center;">{{ $vehicle->reg_date }}</td>
-                        <!-- <td>{{ $vehicle->purchased_cost }}</td> -->
-                        <td>{{ $vehicle->remark }}</td>
+                        <td style="text-align: center;">{{ $bring->reg_date }}</td>
+                        <!-- <td>{{ $bring->purchased_cost }}</td> -->
+                        <td>{{ $bring->remark }}</td>
                         <td style="text-align: center;">
-                            <a href="{{$vehicle->vehicle_id}}" class="btn btn-warning">
+                            <a href="{{$bring->bring_id}}" class="btn btn-warning">
                                 <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
                             </a>
-                            <a href="{{$vehicle->vehicle_id}}" class="btn btn-danger">
+                            <a href="{{$bring->bring_id}}" class="btn btn-danger">
                                 <i class="fa fa-times" aria-hidden="true"></i>
                             </a>
                         </td>
@@ -66,25 +66,25 @@
             </div>
             
             <ul class="pagination">
-                @if($vehicles->currentPage() !== 1)
+                @if($brings->currentPage() !== 1)
                     <li>
-                        <a href="{{ $vehicles->url($vehicles->url(1)) }}" aria-label="Previous">
+                        <a href="{{ $brings->url($brings->url(1)) }}" aria-label="Previous">
                             <span aria-hidden="true">First</span>
                         </a>
                     </li>
                 @endif
                 
-                @for($i=1; $i<=$vehicles->lastPage(); $i++)
-                    <li class="{{ ($vehicles->currentPage() === $i) ? 'active' : '' }}">
-                        <a href="{{ $vehicles->url($i) }}">
+                @for($i=1; $i<=$brings->lastPage(); $i++)
+                    <li class="{{ ($brings->currentPage() === $i) ? 'active' : '' }}">
+                        <a href="{{ $brings->url($i) }}">
                             {{ $i }}
                         </a>
                     </li>
                 @endfor
 
-                @if($vehicles->currentPage() !== $vehicles->lastPage())
+                @if($brings->currentPage() !== $brings->lastPage())
                     <li>
-                        <a href="{{ $vehicles->url($vehicles->lastPage()) }}" aria-label="Previous">
+                        <a href="{{ $brings->url($brings->lastPage()) }}" aria-label="Previous">
                             <span aria-hidden="true">Last</span>
                         </a>
                     </li>

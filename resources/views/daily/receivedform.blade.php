@@ -81,8 +81,8 @@
                                                 <th style="text-align: center; width: 4%;">#</th>
                                                 <th style="text-align: left;">รายการผ้า</th>
                                                 <th style="text-align: center; width: 10%;">จำนวนผ้าสะอาด<br>(ชิ้น)</th>
-                                                <th style="text-align: center; width: 10%;">จำนวนผ้าซักซ้ำ<br>(ชิ้น)</th>
-                                                <th style="text-align: center; width: 10%;">จำนวนผ้าชำรุด<br>(ชิ้น)</th>
+                                                <!-- <th style="text-align: center; width: 10%;">จำนวนผ้าซักซ้ำ<br>(ชิ้น)</th>
+                                                <th style="text-align: center; width: 10%;">จำนวนผ้าชำรุด<br>(ชิ้น)</th> -->
                                                 <th style="text-align: center; width: 20%;">หมายเหตุ</th>
                                             </tr>
 
@@ -100,7 +100,7 @@
                                                                     style="text-align: center;"
                                                                     ng-blur="calculateTotal()">
                                                         </td>
-                                                        <td style="text-align: center;">
+                                                        <!-- <td style="text-align: center;">
                                                             <input  type="text" 
                                                                     id="{{ $drape->id. '_return' }}" 
                                                                     name="{{ $drape->id. '_return' }}" 
@@ -113,7 +113,7 @@
                                                                     name="{{ $drape->id. '_return' }}" 
                                                                     class="form-control" 
                                                                     style="text-align: center;">
-                                                        </td>
+                                                        </td> -->
                                                         <td style="text-align: center;">
                                                             <input  type="text" 
                                                                     id="{{ $drape->id. '_remark' }}" 

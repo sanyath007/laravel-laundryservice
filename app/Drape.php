@@ -14,8 +14,8 @@ class Drape extends Model
   //     return $this->belongsTo('App\User', 'person_id', 'person_id');
   // }
 
-  // public function reservation()
-  // {
-  //     return $this->hasMany('App\Reservations', 'driver_id', 'driver_id');
-  // }
+  public function stock()
+  {
+      return $this->hasMany('App\StockDetail', 'id', 'drape_id');
+  }
 }
