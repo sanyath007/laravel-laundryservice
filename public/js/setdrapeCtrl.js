@@ -15,28 +15,30 @@ app.controller('setdrapeCtrl', function($scope, $http, toaster, ModalService, CO
 	$scope.requestTotal = 0;
 	$scope.submitSetdrapeForm = function () {				
 		console.log(event.target)
-		console.log($("#request_time").val())
+		// console.log($("#request_time").val())
+		console.log($('input[type="text"]'))
+		event.preventDefault()
 
 		if ($("#total_request").val() == 0) {
-			event.preventDefault()
 			toaster.pop('error', "", "กรุณากรอกข้อมูลก่อน !!!")
 		} else {
 			toaster.pop('success', "", "บันทึกข้อมูลเรียบร้อย !!!")
 		}
 	}
 
-	$scope.sentTotal = 0;
-	$scope.submitSetdrapeForm = function () {				
-		console.log(event.target)
-		console.log($("#sent_time").val())
+	// $scope.sentTotal = 0;
+	// $scope.submitSetdrapeForm = function () {				
+	// 	console.log(event.target)
+	// 	console.log($("#sent_time").val())
+	// 	console.log($('input[type="text"]'))
 
-		if ($("#sent_total").val() == 0) {
-			event.preventDefault()
-			toaster.pop('error', "", "กรุณากรอกข้อมูลก่อน !!!")
-		} else {
-			toaster.pop('success', "", "บันทึกข้อมูลเรียบร้อย !!!")
-		}
-	}
+	// 	if ($("#sent_total").val() == 0) {
+	// 		event.preventDefault()
+	// 		toaster.pop('error', "", "กรุณากรอกข้อมูลก่อน !!!")
+	// 	} else {
+	// 		toaster.pop('success', "", "บันทึกข้อมูลเรียบร้อย !!!")
+	// 	}
+	// }
 
 	$scope.totalRequest = 0;
 	$scope.calculateTotalRequest = function () {

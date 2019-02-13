@@ -27,7 +27,8 @@
               <li><a href="{{ url('/daily/sentin/stock') }}">เบิก-จ่ายผ้าสามัญ</a></li>
               <!-- <li><a href="{{ url('/daily/sentin/form2') }}">ส่งผ้าไปหน่วยงาน (สำหรับงานซักฟอก)</a></li> -->
               <li role="separator" class="divider"></li>
-              <li><a href="{{ url('/daily/setdrape/list') }}">เบิก-จ่ายเซตผ้าหัตถการ</a></li>
+              <li><a href="{{ url('/daily/setdrape/list') }}">เบิก-จ่ายเซตผ้า OR</a></li>
+              <li><a href="{{ url('/daily/setlr/list') }}">เบิก-จ่ายเซตผ้า LR</a></li>
               <li role="separator" class="divider"></li>
               <li><a href="{{ url('/daily/waste/list') }}">ผ้าชำรุด</a></li>
               <li><a href="{{ url('/daily/discharge/list') }}">ผ้าจำหน่าย</a></li>

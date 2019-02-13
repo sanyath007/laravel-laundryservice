@@ -38,19 +38,14 @@
                     <tr>
                         <!-- <th style="width: 4%; text-align: center;">#</th> -->
                         <th style="text-align: center;">วัน/เดือน/ปี</th>
-                        <th style="width: 5%; text-align: center;">ทั้งหมด</th>
-                        <th style="width: 5%; text-align: center;">ทั่วไป</th>
-                        <th style="width: 5%; text-align: center;">จักษุ</th>
-                        <th style="width: 5%; text-align: center;">ออร์โธ</th>
-                        <th style="width: 5%; text-align: center;"><เที่ยง</th>
-                        <th style="width: 5%; text-align: center;">>เที่ยง</th>
-                        <th style="width: 5%; text-align: center;">บ่าย</th>
-                        <th style="width: 5%; text-align: center;">ดึก</th>
-
-                        <th style="width: 5%; text-align: center;">Large</th>
-                        <th style="width: 5%; text-align: center;">Lap</th>
-                        <th style="width: 5%; text-align: center;">ตา</th>
-                        <th style="width: 5%; text-align: center;">กาวน์</th>
+                        <th style="width: 10%; text-align: center;">ทั้งหมด</th>
+                        <th style="width: 10%; text-align: center;">ทั่วไป</th>
+                        <th style="width: 10%; text-align: center;">จักษุ</th>
+                        <th style="width: 10%; text-align: center;">ออร์โธ</th>
+                        <th style="width: 10%; text-align: center;">ก่อนเที่ยง</th>
+                        <th style="width: 10%; text-align: center;">หลังหลังเที่ยง</th>
+                        <th style="width: 10%; text-align: center;">บ่าย</th>
+                        <th style="width: 10%; text-align: center;">ดึก</th>
                     </tr>
 
                     @foreach($orservices as $orservice)

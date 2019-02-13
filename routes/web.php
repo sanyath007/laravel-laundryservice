@@ -74,11 +74,17 @@ Route::group(['middleware' => ['web','auth']], function () {
     Route::post('/daily/sentin/add', 'DailyController@sentinadd');
     Route::post('/daily/sentin/add2', 'DailyController@sentinadd2');
     
-
+    // OR
     Route::get('/daily/setdrape/list', 'DailyController@setdrapelist');
-    Route::get('/daily/setdrape/form', 'DailyController@setdrapeform');
+    Route::get('/daily/setdrape/form', 'DailyController@setdrapeform'); //ส่งเบิกเซต
     Route::post('/daily/setdrape/add', 'DailyController@setdrapeadd');
-    Route::get('/daily/setdrape/form2/{_stock}/{id}', 'DailyController@setdrapeform2');
+    Route::get('/daily/setdrape/form2/{_stock}/{id}', 'DailyController@setdrapeform2'); //จ่ายเซต
+    Route::post('/daily/setdrape/add2', 'DailyController@setdrapeadd2');
+    // LR
+    Route::get('/daily/setdrape/list', 'DailyController@setdrapelist');
+    Route::get('/daily/setdrape/form', 'DailyController@setdrapeform'); //ส่งเบิกเซต
+    Route::post('/daily/setdrape/add', 'DailyController@setdrapeadd');
+    Route::get('/daily/setdrape/form2/{_stock}/{id}', 'DailyController@setdrapeform2'); //จ่ายเซต
     Route::post('/daily/setdrape/add2', 'DailyController@setdrapeadd2');
 
 
