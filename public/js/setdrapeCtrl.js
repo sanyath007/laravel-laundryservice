@@ -5,8 +5,8 @@ app.controller('setdrapeCtrl', function($scope, $http, toaster, ModalService, CO
 /** ################################################################################## */
 	// let dateNow = new Date()
 	// $scope.assignDate = moment(dateNow)
-	$scope.setforward = []
-	$scope.stocks = []
+	$scope.setforward = [];
+	$scope.stock = "";
 
 	$scope.testName = function () {
 		console.log(event.target)
@@ -15,11 +15,11 @@ app.controller('setdrapeCtrl', function($scope, $http, toaster, ModalService, CO
 	$scope.requestTotal = 0;
 	$scope.submitSetdrapeForm = function () {				
 		console.log(event.target)
-		// console.log($("#request_time").val())
+		console.log($("#total_request").val())
 		console.log($('input[type="text"]'))
-		event.preventDefault()
 
 		if ($("#total_request").val() == 0) {
+			event.preventDefault()
 			toaster.pop('error', "", "กรุณากรอกข้อมูลก่อน !!!")
 		} else {
 			toaster.pop('success', "", "บันทึกข้อมูลเรียบร้อย !!!")

@@ -35,7 +35,8 @@
                         <label for="">วันที่จ่าย</label>
                         <input  type="text" 
                                 id="sent_time" 
-                                name="sent_time" 
+                                name="sent_time"
+                                value="{{ $setdrape->date }}"
                                 class="form-control">
                     </div>
                 </div>
@@ -67,7 +68,7 @@
                         <th style="text-align: center; width: 4%;">#</th>
                         <th style="text-align: left;">รายการผ้า</th>
                         <th style="text-align: center; width: 10%;">สต็อก</th>
-                        <th style="text-align: center; width: 10%;">เบิก</th>
+                        <th style="text-align: center; width: 10%;">ใช้ไป</th>
                         <th style="text-align: center; width: 10%;">จ่าย</th>
                         <!-- <th style="text-align: center; width: 10%;">ยอดรวม</th> -->
                         <th style="text-align: center; width: 20%;">หมายเหตุ</th>

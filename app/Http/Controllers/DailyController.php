@@ -269,7 +269,7 @@ class DailyController extends Controller
             foreach ($sets as $set) {
                 $set_id = $set->id;
 
-                if ($req[$set_id. '_request']) {
+                if (!empty($req[$set_id. '_stock']) || !empty($req[$set_id. '_request'])) {
                     $detail = new SetdrapeDailyDetail();
                     $detail->setdrape_daily_id = $setdrapeDailyLastId;
                     $detail->set_id = $set_id;

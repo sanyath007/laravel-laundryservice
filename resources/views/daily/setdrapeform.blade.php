@@ -18,7 +18,7 @@
                 <div class="col-md-6">
                     <div class="form-group">
                         <label for="">คลัง</label>
-                        <select id="_stock" name="_stock" class="form-control" ng-change="loadSetforWard()" ng-model="stocks">
+                        <select id="_stock" name="_stock" class="form-control" ng-change="loadSetforWard()" ng-model="stock">
                             <option value="">-- กรุณาเลือก --</option>
                             @foreach ($stocks as $stock)
                                 <option value="{{ $stock->id }}">{{ $stock->stock_name }}</option>
@@ -52,8 +52,8 @@
                     <tr>
                         <th style="text-align: center; width: 4%;">#</th>
                         <th style="text-align: left;">รายการเซตผ้า</th>
-                        <th style="text-align: center; width: 10%;">จำนวน stock</th>
-                        <th style="text-align: center; width: 10%;">จำนวนเบิก</th>
+                        <th style="text-align: center; width: 10%;">สต๊อก</th>
+                        <th style="text-align: center; width: 10%;">ใช้ไป</th>
                         <th style="text-align: center; width: 20%;">หมายเหตุ</th>
                     </tr>
 
