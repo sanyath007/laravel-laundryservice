@@ -84,8 +84,10 @@ Route::group(['middleware' => ['web','auth']], function () {
     Route::get('/daily/setdrape/list', 'DailyController@setdrapelist');
     Route::get('/daily/setdrape/form', 'DailyController@setdrapeform'); //ส่งเบิกเซต
     Route::post('/daily/setdrape/add', 'DailyController@setdrapeadd');
-    Route::get('/daily/setdrape/form2/{_stock}/{id}', 'DailyController@setdrapeform2'); //จ่ายเซต
-    Route::post('/daily/setdrape/add2', 'DailyController@setdrapeadd2');
+    Route::get('/daily/setdrape/form2/{stock}/{id}/{isnew}', 'DailyController@setdrapeform2'); //จ่ายเซต
+    Route::post('/daily/setdrape/dispense1', 'DailyController@setdrapedispense1');
+    Route::post('/daily/setdrape/dispense2', 'DailyController@setdrapedispense2');
+    // Route::post('/daily/setdrape/update', 'DailyController@setdrapeupdate');
 
 
     Route::get('/drape/ajaxdrape', 'DrapeController@ajaxdrape');

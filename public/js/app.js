@@ -4,7 +4,7 @@ app.constant('CONFIG', {
     'APP_NAME' : 'My Awesome App',
     'APP_VERSION' : '1.0.0',
     'GOOGLE_ANALYTICS_ID' : '',
-    'BASE_URL' : 'http://localhost/public/laundryservice/public/',
+    'BASE_URL' : 'http://localhost/laravel-laundryservice/public',
     'SYSTEM_LANGUAGE' : 'TH'
 });
 

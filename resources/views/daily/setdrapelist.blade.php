@@ -3,9 +3,15 @@
 @section('content')
 
 <div class="container-fluid" ng-controller="setdrapeCtrl">
+    
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="{{ url('/') }}">หน้าหลัก</a></li>
+        <li class="breadcrumb-item active">เบิก-จ่ายเซตผ้า OR</li>
+    </ol>
+
     <!-- page title -->
     <div class="page__title">
-        <span>ยอดเบิก-จ่ายเซตผ้ารายวัน</span>
+        <span>ยอดเบิก-จ่ายเซตผ้า OR</span>
         <a href="{{ url('daily/setdrape/form') }}" class="btn btn-primary pull-right">
           <i class="fa fa-plus" aria-hidden="true"></i>
           เบิกเซตผ้า
@@ -94,30 +100,27 @@
                                     {{ ($set) ? $set->request_amt : '' }}
                                 </td>
                                 <td style="text-align: center;">
-                                    {{ ($set) ? $set->sentin_amt : '' }}
+                                    {{ ($set) ? (int)$set->sentin1_amt + (int)$set->sentin2_amt + (int)$set->sentin3_amt : '' }}
                                 </td>
                                 <td style="text-align: center;">
                                     <b style="color: red;">
-                                        {{ ($set) ? (int)$set->stock_amt + (int)$set->sentin_amt : '' }}
+                                        {{ ($set) ? (int)$set->stock_amt + (int)$set->sentin1_amt + (int)$set->sentin2_amt + (int)$set->sentin3_amt : '' }}
                                     </b>
                                 </td>
 
                              @endfor
 
-                            <?php $setOr = DB::table("setdrape_daily")  
-                                                ->where(['date' => $_month. '-' .$d])
-                                                ->where(['stock_id' => '14'])
+                            <?php $setOr = DB::table("setdrape_daily")
+                                                ->select('setdrape_daily.id','setdrape_daily.date','setdrape_daily.stock_id','setdrape_daily_detail.set_id','setdrape_daily_detail.stock_amt','setdrape_daily_detail.request_amt','setdrape_daily_detail.sentin1_amt')
+                                                ->join('setdrape_daily_detail', 'setdrape_daily.id', '=', 'setdrape_daily_detail.setdrape_daily_id')  
+                                                ->where(['setdrape_daily.date' => $_month. '-' .$d])
+                                                ->where(['setdrape_daily.stock_id' => '14'])
                                                 ->first();
                                 // var_dump($setOr);
                             ?>
 
-                            <td style="text-align: center;"> 
-                                    
-                                <a  href="{{ url('/reserve/edit/') }}" 
-                                    class="btn btn-warning btn-xs">
-                                    <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
-                                </a>
-                                
+                            <td style="text-align: center;">
+
                                 @if (Auth::user()->person_id != '1300200009261')
                                     <a  href="{{ url('/reserve/cancel/') }}"
                                         class="btn btn-primary btn-xs">
@@ -139,18 +142,23 @@
                                         {{ csrf_field() }}
                                     </form>
                                 @endif
-
-                                <a  href="{{ url('/reserve/delete/') }}"
-                                    class="btn btn-danger btn-xs">
-                                    <i class="fa fa-trash-o" aria-hidden="true"></i>
-                                </a>
-
-                                <form id="delete-form" action="{{ url('/reserve/delete/') }}" method="POST" style="display: none;">
-                                    {{ csrf_field() }}
-                                </form>
-
+                                
                                 @if ($setOr)
-                                    <a  href="{{ url('/daily/setdrape/form2') }}/14/{{ ($setOr) ? $setOr->id : '' }}" 
+                                    <a  href="{{ url('/reserve/edit/') }}" 
+                                        class="btn btn-warning btn-xs">
+                                        <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
+                                    </a>
+
+                                    <a  href="{{ url('/reserve/delete/') }}"
+                                        class="btn btn-danger btn-xs">
+                                        <i class="fa fa-trash-o" aria-hidden="true"></i>
+                                    </a>
+
+                                    <form id="delete-form" action="{{ url('/reserve/delete/') }}" method="POST" style="display: none;">
+                                        {{ csrf_field() }}
+                                    </form>
+                                
+                                    <a  href="{{ url('/daily/setdrape/form2') }}/14/{{ ($setOr) ? $setOr->id : '' }}/{{ ($setOr) ? (int)$setOr->sentin1_amt : '' }}" 
                                         class="btn btn-primary btn-xs">
                                         <i class="fa fa-reply" aria-hidden="true"></i>
                                     </a>

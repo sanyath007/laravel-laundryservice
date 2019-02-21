@@ -2,6 +2,13 @@
 
 @section('content')
 <div class="container-fluid" ng-controller="setdrapeCtrl">
+
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="{{ url('/') }}">หน้าหลัก</a></li>
+        <li class="breadcrumb-item"><a href="{{ url('/daily/setdrape/list') }}">เบิก-จ่ายเซตผ้า OR</a></li>
+        <li class="breadcrumb-item active">เบิกเซตผ้า</li>
+    </ol>
+
     <!-- page title -->
     <div class="page__title">
         <span>ยอดเบิกเซตผ้ารายวัน</span>
@@ -36,7 +43,7 @@
 
                 <div class="col-md-6">
                     <div class="form-group">
-                        <label for="">จำนวนผู้ป่วยประจำวัน</label>
+                        <label for="">จำนวนผู้ป่วย (ราย)</label>
                         <input type="text" id="patient_num" name="patient_num" class="form-control">
                     </div>
                 </div>

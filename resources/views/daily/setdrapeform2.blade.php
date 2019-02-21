@@ -2,9 +2,16 @@
 
 @section('content')
 <div class="container-fluid" ng-controller="setdrapeCtrl">
+
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="{{ url('/') }}">หน้าหลัก</a></li>
+        <li class="breadcrumb-item"><a href="{{ url('/daily/setdrape/list') }}">เบิก-จ่ายเซตผ้า OR</a></li>
+        <li class="breadcrumb-item active">เบิกเซตผ้า</li>
+    </ol>
+
     <!-- page title -->
     <div class="page__title">
-        <span>ยอดส่งผ้าไปหน่วยงาน</span>
+        <span>เบิกเซตผ้า</span>
     </div>
 
     <hr />
@@ -12,9 +19,9 @@
 
     <div class="row">
         <div class="col-md-12">
-            <form action="{{ url('daily/setdrape/add2') }}" method="POST" ng-submit="submitSentinForm2()">
+            <form action="{{ url('daily/setdrape/dispense'.$isnew) }}" method="POST" ng-submit="submitSentinForm2()">
                 {{ csrf_field() }}
-                <input type="hidden" id="_id" name="_id" value="{{ $setdrape->id }}"> 
+                <input type="hidden" id="_id" name="_id" value="{{ $setdrape->id }}">
 
                 <div class="col-md-6">
                     <div class="form-group">
@@ -43,11 +50,12 @@
 
                 <div class="col-md-6">
                     <div class="form-group">
-                        <label for="">จำนวนผู้ป่วย</label>
-                        <input  type="text" 
-                                id="patient_num" 
-                                name="patient_num" 
-                                value="{{ $setdrape->patient_num }}" 
+                        <label for="">รอบที่จ่าย</label>
+                        <input  type="number" 
+                                id="times" 
+                                name="times"
+                                value="1" 
+                                value="{{ $setdrape->remark }}" 
                                 class="form-control">
                     </div>
                 </div>
@@ -67,25 +75,32 @@
                     <tr>
                         <th style="text-align: center; width: 4%;">#</th>
                         <th style="text-align: left;">รายการผ้า</th>
-                        <th style="text-align: center; width: 10%;">สต็อก</th>
-                        <th style="text-align: center; width: 10%;">ใช้ไป</th>
-                        <th style="text-align: center; width: 10%;">จ่าย</th>
-                        <!-- <th style="text-align: center; width: 10%;">ยอดรวม</th> -->
+                        <th style="text-align: center; width: 8%;">สต็อก</th>
+                        <th style="text-align: center; width: 8%;">ใช้ไป</th>
+                        <th style="text-align: center; width: 8%;">สติ๊เกอร์</th>
+                        <th style="text-align: center; width: 8%;">จ่าย1<br>(10.00น.)</th>
+
+                        @if($isnew != 1)
+                            <th style="text-align: center; width: 8%;">จ่าย2<br>(15.00น.)</th>
+                            <th style="text-align: center; width: 8%;">จ่าย3<br>(19.00น.)</th>
+                        @endif
+
+                        <!-- <th style="text-align: center; width: 8%;">จ่ายรวม</th> -->
                         <th style="text-align: center; width: 20%;">หมายเหตุ</th>
                     </tr>
 
+                    <?php $isComplete = 0; ?>
                     @foreach($sets as $set)
                         
-                        <tr>
-                            <td style="text-align: center;">{{ $set->id }}</td>
-                            <td>{{ $set->set_name }}</td>
-
-                            <?php $setdrape_detail = DB::table("setdrape_daily_detail")  
+                        <?php $setdrape_detail = DB::table("setdrape_daily_detail")  
                                                 ->where(['setdrape_daily_id' => $setdrape->id])
                                                 ->where(['set_id' => $set->id])
                                                 ->first();
-                            ?>
+                        ?>
 
+                        <tr>
+                            <td style="text-align: center;">{{ $set->id }}</td>
+                            <td>{{ $set->set_name }}</td>
                             <td style="text-align: center;">
                                 {{ ($setdrape_detail) ? $setdrape_detail->stock_amt : '' }}
                             </td>
@@ -93,38 +108,90 @@
                                 {{ ($setdrape_detail) ? $setdrape_detail->request_amt : '' }}
                             </td>
                             <td style="text-align: center;">
-                                <input  type="text" 
-                                        id="{{ $set->id. '_sent' }}" 
-                                        name="{{ $set->id. '_sent' }}"
-                                        ng-blur="calculateTotalSent()"
-                                        class="form-control" 
-                                        style="text-align: center;">
+                                @if($setdrape_detail && is_null($setdrape_detail->sentout_amt))   
+                                    <input  type="text" 
+                                            id="{{ $set->id. '_sentout' }}" 
+                                            name="{{ $set->id. '_sentout' }}" 
+                                            class="form-control" 
+                                            style="text-align: center;">
+                                @else
+                                    {{ ($setdrape_detail) ? $setdrape_detail->sentout_amt : '' }}
+                                @endif
                             </td>
+                            <td style="text-align: center;">
+                                @if($setdrape_detail && is_null($setdrape_detail->sentin1_amt))                                    
+                                    <input  type="text" 
+                                            id="{{ $set->id. '_sentin1' }}" 
+                                            name="{{ $set->id. '_sentin1' }}"
+                                            ng-blur="calculateTotalSent()"
+                                            class="form-control" 
+                                            style="text-align: center;">
+                                @else
+                                    {{ ($setdrape_detail) ? $setdrape_detail->sentin1_amt : '' }}
+                                @endif
+                            </td>
+
+                            @if($isnew != 1)
+
+                                <td style="text-align: center;">
+                                    @if($setdrape_detail && is_null($setdrape_detail->sentin2_amt))
+                                        <input  type="text" 
+                                                id="{{ $set->id. '_sentin2' }}" 
+                                                name="{{ $set->id. '_sentin2' }}"
+                                                ng-blur="calculateTotalSent()"
+                                                class="form-control" 
+                                                style="text-align: center;">
+                                    @else
+                                        {{ ($setdrape_detail) ? $setdrape_detail->sentin2_amt : '' }}
+                                    @endif
+                                </td>
+                                <td style="text-align: center;">
+                                    @if($setdrape_detail && is_null($setdrape_detail->sentin3_amt))
+                                        <input  type="text" 
+                                                id="{{ $set->id. '_sentin3' }}" 
+                                                name="{{ $set->id. '_sentin3' }}"
+                                                ng-blur="calculateTotalSent()"
+                                                class="form-control" 
+                                                style="text-align: center;">
+                                    @else
+                                        {{ ($setdrape_detail) ? $setdrape_detail->sentin3_amt : '' }}
+                                        <?php $isComplete = 1; ?>
+                                    @endif
+                                </td>
+
+                            @endif
+
                             <!-- <td style="text-align: center;">
-                                <input  type="text" 
-                                        id="@{{ data.id + '_balance' }}" 
-                                        name="@{{ data.id + '_balance' }}" 
-                                        class="form-control" 
-                                        style="text-align: center;">
-                            </td> -->
+                                @if($setdrape_detail)
+                                    <?php $sentin_all = (int)$setdrape_detail->sentin1_amt + (int)$setdrape_detail->sentin2_amt + (int)$setdrape_detail->sentin3_amt; ?>
+                                    <input  type="text" 
+                                            id="{{ $set->id. '_sentin' }}" 
+                                            name="{{ $set->id. '_sentin' }}"
+                                            value="{{ $sentin_all }}" 
+                                            readonly="readonly"
+                                            class="form-control" 
+                                            style="text-align: center;">
+                                @endif
+                            </td>        -->
                             <td style="text-align: center;">
                                 <input  type="text" 
                                         id="{{ $set->id. '_remark' }}" 
                                         name="{{ $set->id. '_remark' }}" 
                                         class="form-control">
                             </td>
-
                         </tr>
                             
                     @endforeach
 
                 </table>
                 
-                <div class="col-md-12">
-                    <div class="form-group">
-                        <button class="btn btn-primary pull-right">บันทึก</button>
+                @if($isComplete != 1)
+                    <div class="col-md-12">
+                        <div class="form-group">
+                            <button class="btn btn-primary pull-right">บันทึก</button>
+                        </div>
                     </div>
-                </div>
+                @endif
 
                 <input type="hidden" id="total_sent" name="total_sent">
 

@@ -49,11 +49,19 @@ app.controller('setdrapeCtrl', function($scope, $http, toaster, ModalService, CO
 	}
 
 	$scope.totalSent = 0;
+	// $scope.sentinAll = 0;
 	$scope.calculateTotalSent = function () {
 		console.log(event.target)
+		// let arr = (event.target.id).split("_")
+		// console.log(arr)
+
 		$scope.totalSent += ($("#"+event.target.id).val() == '') ? 0 : parseInt($("#"+event.target.id).val());
 		$("#total_sent").val($scope.totalSent)
 		console.log($("#total_sent").val())
+
+		// $scope.sentinAll += ($("#"+event.target.id).val() == '') ? 0 : parseInt($("#"+event.target.id).val());
+		// $("#" +arr[0]+ "_sentin").val($scope.sentinAll)
+		// console.log("#" +arr[0]+ "_sentin = " +$("#" +arr[0]+ "_sentin").val())
 	}
 
 	$scope.loadSetforWard = function () {

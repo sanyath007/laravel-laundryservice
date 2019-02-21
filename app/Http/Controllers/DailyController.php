@@ -284,23 +284,24 @@ class DailyController extends Controller
         return redirect('daily/setdrape/list');
     }
 
-    public function setdrapeform2 ($_stock, $id)
+    public function setdrapeform2 ($stock, $id, $isnew)
     {
-        if ($_stock == '14'){
+        if ($stock == '14'){
             $sets = Set::where(['set_type' => '1'])->orderBy('id', 'ASC')->get();
-        } else if ($_stock == '13'){
+        } else if ($stock == '13'){
             $sets = Set::where(['set_type' => '2'])->orderBy('id', 'ASC')->get();
         }
 
         return view('daily.setdrapeform2', [
             'stocks'    => Substock::whereIn('id', ['13', '14'])->get(),
-            '_stock'    => $_stock,
+            '_stock'    => $stock,
             'setdrape'  => SetdrapeDaily::find($id),
             'sets'      => $sets,
+            'isnew'     => ($isnew > 0) ? 2 : 1
         ]);
     }
 
-    public function setdrapeadd2 (Request $req)
+    public function setdrapedispense1 (Request $req)
     {   
         date_default_timezone_set('Asia/Bangkok');
 
@@ -311,7 +312,7 @@ class DailyController extends Controller
         }
 
         $setdrape = SetdrapeDaily::find($req['_id']);
-        $setdrape->request_time = $req['sent_time']. ' ' .date("h:i:s");
+        $setdrape->sent1_time = $req['sent_time']. ' ' .date("h:i:s");
         
         if($setdrape->save()) {
             foreach ($sets as $set) {
@@ -322,8 +323,42 @@ class DailyController extends Controller
                                                     ->where(['set_id' => $set->id])
                                                     ->first();
                                                     
-                    $detail->sentin_amt = $req[$set_id. '_sent'];
-                    // $detail->stock_amt = $req[$set_id. '_stock'];
+                    $detail->sentin1_amt = $req[$set_id. '_sentin1'];
+                    $detail->sentout_amt = $req[$set_id. '_sentout'];
+                    $detail->remark = $req[$set_id. '_remark'];
+                    $detail->save();
+                }
+            }
+        }
+
+        return redirect('daily/setdrape/list');
+    }
+
+    public function setdrapedispense2 (Request $req)
+    {   
+        date_default_timezone_set('Asia/Bangkok');
+
+        if ($req['_stock'] == '14'){
+            $sets = Set::where(['set_type' => '1'])->orderBy('id', 'ASC')->get();
+        } else if ($req['_stock'] == '13'){
+            $sets = Set::where(['set_type' => '2'])->orderBy('id', 'ASC')->get();
+        }
+
+        $setdrape = SetdrapeDaily::find($req['_id']);
+        $setdrape->sent2_time = $req['sent_time']. ' ' .date("h:i:s");
+        $setdrape->sent3_time = $req['sent_time']. ' ' .date("h:i:s");
+
+        if($setdrape->save()) {
+            foreach ($sets as $set) {
+                $set_id = $set->id;
+
+                if ($req[$set_id. '_sentin2'] || $req[$set_id. '_sentin3']) {
+                    $detail = SetdrapeDailyDetail::where(['setdrape_daily_id' => $req['_id']])
+                                                    ->where(['set_id' => $set->id])
+                                                    ->first();
+
+                    $detail->sentin2_amt = $req[$set_id. '_sentin2'];
+                    $detail->sentin3_amt = $req[$set_id. '_sentin3'];
                     $detail->remark = $req[$set_id. '_remark'];
                     $detail->save();
                 }
