@@ -318,7 +318,7 @@ class DailyController extends Controller
             foreach ($sets as $set) {
                 $set_id = $set->id;
 
-                if ($req[$set_id. '_sent']) {
+                if ($req[$set_id. '_sentin1']) {
                     $detail = SetdrapeDailyDetail::where(['setdrape_daily_id' => $req['_id']])
                                                     ->where(['set_id' => $set->id])
                                                     ->first();
