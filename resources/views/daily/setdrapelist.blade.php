@@ -158,7 +158,7 @@
                                         {{ csrf_field() }}
                                     </form>
                                 
-                                    <a  href="{{ url('/daily/setdrape/form2') }}/14/{{ ($setOr) ? $setOr->id : '' }}/{{ ($setOr) ? (int)$setOr->sentin1_amt : '' }}" 
+                                    <a  href="{{ url('/daily/setdrape/form2') }}/14/{{ ($setOr) ? $setOr->id : '' }}/{{ (is_null($setOr->sentin1_amt)) ? '0' : '1' }}" 
                                         class="btn btn-primary btn-xs">
                                         <i class="fa fa-reply" aria-hidden="true"></i>
                                     </a>

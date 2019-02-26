@@ -250,9 +250,9 @@ class DailyController extends Controller
         date_default_timezone_set('Asia/Bangkok');
 
         if ($req['_stock'] == '14'){
-            $sets = Set::where(['set_type' => '1'])->orderBy('id', 'ASC')->get();
+            $sets = Set::where(['set_type' => '1'])->where(['status' => '1'])->orderBy('id', 'ASC')->get();
         } else if ($req['_stock'] == '13'){
-            $sets = Set::where(['set_type' => '2'])->orderBy('id', 'ASC')->get();
+            $sets = Set::where(['set_type' => '2'])->where(['status' => '1'])->orderBy('id', 'ASC')->get();
         }
 
         $setdrape = new SetdrapeDaily();
@@ -269,7 +269,7 @@ class DailyController extends Controller
             foreach ($sets as $set) {
                 $set_id = $set->id;
 
-                if (!empty($req[$set_id. '_stock']) || !empty($req[$set_id. '_request'])) {
+                if ($req->has($set_id. '_stock') || $req->has($set_id. '_request')) {
                     $detail = new SetdrapeDailyDetail();
                     $detail->setdrape_daily_id = $setdrapeDailyLastId;
                     $detail->set_id = $set_id;
@@ -287,9 +287,9 @@ class DailyController extends Controller
     public function setdrapeform2 ($stock, $id, $isnew)
     {
         if ($stock == '14'){
-            $sets = Set::where(['set_type' => '1'])->orderBy('id', 'ASC')->get();
+            $sets = Set::where(['set_type' => '1'])->where(['status' => '1'])->orderBy('id', 'ASC')->get();
         } else if ($stock == '13'){
-            $sets = Set::where(['set_type' => '2'])->orderBy('id', 'ASC')->get();
+            $sets = Set::where(['set_type' => '2'])->where(['status' => '1'])->orderBy('id', 'ASC')->get();
         }
 
         return view('daily.setdrapeform2', [
@@ -306,9 +306,9 @@ class DailyController extends Controller
         date_default_timezone_set('Asia/Bangkok');
 
         if ($req['_stock'] == '14'){
-            $sets = Set::where(['set_type' => '1'])->orderBy('id', 'ASC')->get();
+            $sets = Set::where(['set_type' => '1'])->where(['status' => '1'])->orderBy('id', 'ASC')->get();
         } else if ($req['_stock'] == '13'){
-            $sets = Set::where(['set_type' => '2'])->orderBy('id', 'ASC')->get();
+            $sets = Set::where(['set_type' => '2'])->where(['status' => '1'])->orderBy('id', 'ASC')->get();
         }
 
         $setdrape = SetdrapeDaily::find($req['_id']);
@@ -318,7 +318,7 @@ class DailyController extends Controller
             foreach ($sets as $set) {
                 $set_id = $set->id;
 
-                if ($req[$set_id. '_sentin1']) {
+                if ($req->exists($set_id. '_sentin1')) {
                     $detail = SetdrapeDailyDetail::where(['setdrape_daily_id' => $req['_id']])
                                                     ->where(['set_id' => $set->id])
                                                     ->first();
@@ -339,9 +339,9 @@ class DailyController extends Controller
         date_default_timezone_set('Asia/Bangkok');
 
         if ($req['_stock'] == '14'){
-            $sets = Set::where(['set_type' => '1'])->orderBy('id', 'ASC')->get();
+            $sets = Set::where(['set_type' => '1'])->where(['status' => '1'])->orderBy('id', 'ASC')->get();
         } else if ($req['_stock'] == '13'){
-            $sets = Set::where(['set_type' => '2'])->orderBy('id', 'ASC')->get();
+            $sets = Set::where(['set_type' => '2'])->where(['status' => '1'])->orderBy('id', 'ASC')->get();
         }
 
         $setdrape = SetdrapeDaily::find($req['_id']);
@@ -352,7 +352,7 @@ class DailyController extends Controller
             foreach ($sets as $set) {
                 $set_id = $set->id;
 
-                if ($req[$set_id. '_sentin2'] || $req[$set_id. '_sentin3']) {
+                if ($req->exists($set_id. '_sentin2') || $req->exists($set_id. '_sentin3')) {
                     $detail = SetdrapeDailyDetail::where(['setdrape_daily_id' => $req['_id']])
                                                     ->where(['set_id' => $set->id])
                                                     ->first();
