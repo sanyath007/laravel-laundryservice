@@ -35,12 +35,12 @@
             <div class="table-responsive">
                 <table class="table table-striped table-bordered">
                     <tr>
-                        <th style="text-align: center; width: 2%">#</th>
-                        <th style="text-align: center; width: 15%">รายการผ้า</th>
+                        <th style="text-align: center; width: 2%;">#</th>
+                        <th style="text-align: center; width: 20%;">รายการผ้า</th>
 
-                        <?php for($i=1; $i <= 15; $i++): ?>
-                            <th style="text-align: center;"><?=$i ?></th>
-                        <?php endfor; ?>
+                        @for($i=1; $i <= 15; $i++)
+                            <th style="text-align: center; width: 4%;"><?=$i ?></th>
+                        @endfor
                         
                         <!-- <th style="text-align: center; width: 5%;">Actions</th> -->
                     </tr>
@@ -49,7 +49,7 @@
 
                         <tr>
                             <td style="text-align: center;">{{ $sentoutType->sentout_type_id }}</td>
-                            <td>{{ $sentoutType->sentout_type_name }}</td>
+                            <td>{{ $sentoutType->sentout_type_name }} ( {{$sentoutType->unit }})</td>
 
                             @for($d=1; $d <= 15; $d++)
 
@@ -64,10 +64,9 @@
                                 @if($sentoutType->sentout_type_id==14 || $sentoutType->sentout_type_id==15)
                                     @if(($sentout) && $sentout->amount > 0)
 
-                                        <td style="text-align: center;">
-                                            <font size="1.5">
-                                                <?=(($sentout) ? $sentout->amount.$sentoutType->unit : '')?>
-                                            </font>
+                                        <td style="text-align: center; font-size: 8pt;">
+                                            {{ ($sentout) ? $sentout->amount : '' }}
+
                                             <a  ng-click="popUpDetailItems({{ $sentout->sentout_daily_id }}, {{ ($sentoutType->sentout_type_id==14) ? 1 : 2 }})"
                                                 class="btn btn-info btn-xs">
                                                 <i class="fa fa-list" aria-hidden="true"></i>
@@ -81,10 +80,8 @@
                                     @endif
                                 @else
 
-                                    <td style="text-align: center;">
-                                        <font size="1.5">
-                                            <?=(($sentout) ? $sentout->amount.$sentoutType->unit : '')?>
-                                        </font>
+                                    <td style="text-align: center; font-size: 8pt;">
+                                        {{ ($sentout) ? $sentout->amount : '' }}
                                     </td>
 
                                 @endif
@@ -102,6 +99,28 @@
 
                     @endforeach
 
+                    <!-- น้ำหนักรวม -->
+                    <tr>
+                        <td colspan="2" style="text-align: center;">น้ำหนักรวม</td>
+
+                        @for($d=1; $d <= 15; $d++)
+                            <?php 
+                                $sentoutTotal = DB::table("sentout_daily")  
+                                                ->where(['date' => $_month. '-' .$d])
+                                                ->first();
+                            ?>
+                            <td style="text-align: center; font-size: 8pt;">
+                                {{ ($sentoutTotal) ? number_format($sentoutTotal->total, 2) : '' }}<br>
+
+                                <?= (!empty($sentoutTotal->remark)) 
+                                        ?   '<span data-balloon="'.$sentoutTotal->remark.'" data-balloon-pos="up">
+                                                <i class="fa fa-info-circle fa-1x text-info" aria-hidden="true"></i>
+                                            </span>' 
+                                        : '' 
+                                ?>
+                            </td>
+                        @endfor
+                    </tr>
                     <tr>
                         <td colspan="2" style="text-align: center;">Actions</td>
 
@@ -111,19 +130,21 @@
                                                 ->first();
                             ?>
 
-                            <td style="text-align: center;">                                
-                                <a  href="{{ url('/print/print.php') }}?id={{ ($sentout2) ? $sentout2->id : '' }}" 
-                                    class="btn btn-success btn-xs"
-                                    target="_blank">
-                                    <i class="fa fa-print" aria-hidden="true"></i>
-                                </a>
+                            <td style="text-align: center;">
+                                @if (Auth::user()->person_id == '1300200009261')                  
+                                    <a  href="{{ url('/print/print.php') }}?id={{ ($sentout2) ? $sentout2->id : '' }}" 
+                                        class="btn btn-success btn-xs"
+                                        target="_blank">
+                                        <i class="fa fa-print" aria-hidden="true"></i>
+                                    </a>
+                                @endif
                                     
                                 <a  href="{{ url('/reserve/edit/') }}" 
                                     class="btn btn-warning btn-xs">
                                     <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
                                 </a>
                                 
-                                @if (Auth::user()->person_id != '1300200009261')
+                                @if (Auth::user()->person_id == '1300200009261')
                                     <a  href="{{ url('/reserve/cancel/') }}"
                                         class="btn btn-primary btn-xs">
                                         <i class="fa fa-times" aria-hidden="true"></i>
@@ -134,7 +155,7 @@
                                     </form>
                                 @endif
 
-                                @if (Auth::user()->person_id != '1300200009261')
+                                @if (Auth::user()->person_id == '1300200009261')
                                     <a  href="{{ url('/reserve/recover/') }}"
                                         class="btn btn-default btn-xs">
                                         <i class="fa fa-retweet" aria-hidden="true"></i>
@@ -142,17 +163,17 @@
 
                                     <form id="recover-form" action="{{ url('/reserve/recover/') }}" method="POST" style="display: none;">
                                         {{ csrf_field() }}
+                                    </form>                                
+
+                                    <a  href="{{ url('/reserve/delete/') }}"
+                                        class="btn btn-danger btn-xs">
+                                        <i class="fa fa-trash-o" aria-hidden="true"></i>
+                                    </a>
+
+                                    <form id="delete-form" action="{{ url('/reserve/delete/') }}" method="POST" style="display: none;">
+                                        {{ csrf_field() }}
                                     </form>
-                                @endif
-
-                                <a  href="{{ url('/reserve/delete/') }}"
-                                    class="btn btn-danger btn-xs">
-                                    <i class="fa fa-trash-o" aria-hidden="true"></i>
-                                </a>
-
-                                <form id="delete-form" action="{{ url('/reserve/delete/') }}" method="POST" style="display: none;">
-                                    {{ csrf_field() }}
-                                </form>                                
+                                @endif                            
                             </td>
 
                         @endfor
@@ -165,14 +186,15 @@
 
             <!-- day16-31 -->
             <div class="table-responsive">
+                {{ date("Y-m-t", strtotime(date($_month.'-1'))) }}
                 <table class="table table-striped table-bordered">
                     <tr>
-                        <th style="text-align: center; width: 2%">#</th>
-                        <th style="text-align: center; width: 15%">รายการผ้า</th>
+                        <th style="text-align: center; width: 2%;">#</th>
+                        <th style="text-align: center; width: 20%;">รายการผ้า</th>
 
-                        <?php for($i=16; $i <= 31; $i++): ?>
-                            <th style="text-align: center;"><?=$i ?></th>
-                        <?php endfor; ?>
+                        @for($i=16; $i <= 31; $i++)
+                            <th style="text-align: center; width: 4%;"><?=$i ?></th>
+                        @endfor
                         
                         <!-- <th style="text-align: center; width: 5%;">Actions</th> -->
                     </tr>
@@ -181,7 +203,7 @@
 
                         <tr>
                             <td style="text-align: center;">{{ $sentoutType->sentout_type_id }}</td>
-                            <td>{{ $sentoutType->sentout_type_name }}</td>
+                            <td>{{ $sentoutType->sentout_type_name }} ({{ $sentoutType->unit }})</td>
 
                             @for($d=16; $d <= 31; $d++)
                                 <?php $sentout = DB::table("sentout_daily")
@@ -190,15 +212,14 @@
                                                     ->where(['sentout_daily.date' => $_month. '-' .$d])
                                                     ->where(['sentout_daily_detail.sentout_type_id' => $sentoutType->sentout_type_id])
                                                     ->first();
-                            ?>
+                                ?>
 
-                            @if($sentoutType->sentout_type_id==14 || $sentoutType->sentout_type_id==15)
+                                @if($sentoutType->sentout_type_id==14 || $sentoutType->sentout_type_id==15)
                                     @if(($sentout) && $sentout->amount > 0)
 
-                                        <td style="text-align: center;">
-                                            <font size="1.5">
-                                                <?=(($sentout) ? $sentout->amount.$sentoutType->unit : '')?>
-                                            </font>
+                                        <td style="text-align: center; font-size: 8pt;">                                            
+                                            {{ ($sentout) ? $sentout->amount : '' }}
+
                                             <a  ng-click="popUpDetailItems({{ $sentout->sentout_daily_id }}, {{ ($sentoutType->sentout_type_id==14) ? 1 : 2 }})"
                                                 class="btn btn-info btn-xs">
                                                 <i class="fa fa-list" aria-hidden="true"></i>
@@ -212,10 +233,8 @@
                                     @endif
                                 @else
 
-                                    <td style="text-align: center;">
-                                        <font size="1.5">
-                                            <?=(($sentout) ? $sentout->amount.$sentoutType->unit : '')?>
-                                        </font>
+                                    <td style="text-align: center; font-size: 8pt;">
+                                        {{ ($sentout) ? $sentout->amount : '' }}
                                     </td>
 
                                 @endif
@@ -225,6 +244,28 @@
 
                     @endforeach
 
+                    <!-- น้ำหนักรวม -->
+                    <tr>
+                        <td colspan="2" style="text-align: center;">น้ำหนักรวม</td>
+
+                        @for($d=16; $d <= 31; $d++)
+                            <?php 
+                                $sentoutTotal = DB::table("sentout_daily")  
+                                                ->where(['date' => $_month. '-' .$d])
+                                                ->first();
+                            ?>
+                            <td style="text-align: center; font-size: 8pt;">
+                                {{ ($sentoutTotal) ? number_format($sentoutTotal->total, 2) : '' }}<br>
+
+                                <?= (!empty($sentoutTotal->remark)) 
+                                        ?   '<span data-balloon="'.$sentoutTotal->remark.'" data-balloon-pos="up">
+                                                <i class="fa fa-info-circle fa-1x text-info" aria-hidden="true"></i>
+                                            </span>' 
+                                        : '' 
+                                ?>
+                            </td>
+                        @endfor
+                    </tr>
                     <tr>
                         <td colspan="2" style="text-align: center;">Actions</td>
 
@@ -235,19 +276,21 @@
                                                 ->first();
                             ?>
 
-                            <td style="text-align: center;">                                
-                                <a  href="{{ url('/print/print.php') }} ?id={{ ($sentout2) ? $sentout2->id : '' }}" 
-                                    class="btn btn-success btn-xs"
-                                    target="_blank">
-                                    <i class="fa fa-print" aria-hidden="true"></i>
-                                </a>
-                                    
+                            <td style="text-align: center;">
+                                @if (Auth::user()->person_id == '1300200009261')                               
+                                    <a  href="{{ url('/print/print.php') }} ?id={{ ($sentout2) ? $sentout2->id : '' }}" 
+                                        class="btn btn-success btn-xs"
+                                        target="_blank">
+                                        <i class="fa fa-print" aria-hidden="true"></i>
+                                    </a>
+                                @endif
+
                                 <a  href="{{ url('/reserve/edit/') }}" 
                                     class="btn btn-warning btn-xs">
                                     <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
                                 </a>
-                                
-                                @if (Auth::user()->person_id != '1300200009261')
+                                    
+                                @if (Auth::user()->person_id == '1300200009261')
                                     <a  href="{{ url('/reserve/cancel/') }}"
                                         class="btn btn-primary btn-xs">
                                         <i class="fa fa-times" aria-hidden="true"></i>
@@ -258,7 +301,7 @@
                                     </form>
                                 @endif
 
-                                @if (Auth::user()->person_id != '1300200009261')
+                                @if (Auth::user()->person_id == '1300200009261')
                                     <a  href="{{ url('/reserve/recover/') }}"
                                         class="btn btn-default btn-xs">
                                         <i class="fa fa-retweet" aria-hidden="true"></i>
@@ -267,16 +310,16 @@
                                     <form id="recover-form" action="{{ url('/reserve/recover/') }}" method="POST" style="display: none;">
                                         {{ csrf_field() }}
                                     </form>
-                                @endif
 
-                                <a  href="{{ url('/reserve/delete/') }}"
-                                    class="btn btn-danger btn-xs">
-                                    <i class="fa fa-trash-o" aria-hidden="true"></i>
-                                </a>
+                                    <a  href="{{ url('/reserve/delete/') }}"
+                                        class="btn btn-danger btn-xs">
+                                        <i class="fa fa-trash-o" aria-hidden="true"></i>
+                                    </a>
 
-                                <form id="delete-form" action="{{ url('/reserve/delete/') }}" method="POST" style="display: none;">
-                                    {{ csrf_field() }}
-                                </form>                                
+                                    <form id="delete-form" action="{{ url('/reserve/delete/') }}" method="POST" style="display: none;">
+                                        {{ csrf_field() }}
+                                    </form>
+                                @endif                              
                             </td>
 
                         <?php endfor; ?>

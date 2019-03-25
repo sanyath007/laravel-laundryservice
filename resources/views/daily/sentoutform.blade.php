@@ -29,95 +29,109 @@
                     </div>
                 </div>
                 
-                <table class="table table-striped">
-                    <tr>
-                        <th style="text-align: center; width: 4%;">#</th>
-                        <th style="text-align: left;">รายการผ้า</th>
-                        <th style="text-align: center; width: 10%;">จำนวน นน. (กก.)</th>
-                        <th style="text-align: center; width: 10%;">จำนวนชิ้น (ผืน)</th>
-                        <th style="text-align: center; width: 25%;">หมายเหตุ</th>
-                    </tr>
 
-                    @foreach($sentoutTypes as $sentoutType)
+                <div class="col-md-12">
+                    <table class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th style="text-align: center; width: 4%;">#</th>
+                                <th style="text-align: left;">รายการผ้า</th>
+                                <th style="text-align: center; width: 10%;">จำนวน นน. (กก.)</th>
+                                <th style="text-align: center; width: 10%;">จำนวนชิ้น (ผืน)</th>
+                                <th style="text-align: center; width: 25%;">หมายเหตุ</th>
+                            </tr>
+                        </thead>
+                        <tbody>
 
-                        <tr>
-                            <td style="text-align: center;">
-                                {{ $sentoutType->sentout_type_id }}
-                            </td>
-                            <td>
-                                {{ $sentoutType->sentout_type_name . ' (' . $sentoutType->count_method_desc . ')' }}
-                            </td>
-                            
-                            @if($sentoutType->count_method == '1')
+                            @foreach($sentoutTypes as $sentoutType)
+
+                                <tr>
+                                    <td style="text-align: center;">
+                                        {{ $sentoutType->sentout_type_id }}
+                                    </td>
+                                    <td>
+                                        {{ $sentoutType->sentout_type_name . ' (' . $sentoutType->count_method_desc . ')' }}
+                                    </td>
+                                    
+                                    @if($sentoutType->count_method == '1')
+                                        <td style="text-align: center;">
+                                            <input  type="text" 
+                                                    id="{{ $sentoutType->sentout_type_id. '_amount' }}" 
+                                                    name="{{ $sentoutType->sentout_type_id. '_amount' }}" 
+                                                    class="form-control" 
+                                                    style="text-align: center;"
+                                                    ng-blur="calculateAllWeight()">
+                                        </td>
+
+                                        <td style="text-align: center;">&nbsp;</td>
+                                    @endif
+
+                                    @if($sentoutType->count_method == '2')
+                                        <td style="text-align: center;">&nbsp;</td>
+                                        <td style="text-align: center;">
+                                            <input  type="text" 
+                                                    id="{{ $sentoutType->sentout_type_id. '_amount' }}" 
+                                                    name="{{ $sentoutType->sentout_type_id. '_amount' }}" 
+                                                    class="form-control" 
+                                                    style="text-align: center;">
+                                        </td>
+                                    @endif
+                                    
+                                    @if($sentoutType->count_method == '3')
+                                        <td style="text-align: center;">
+                                            <input  type="text" 
+                                                    id="{{ $sentoutType->sentout_type_id. '_amount' }}" 
+                                                    name="{{ $sentoutType->sentout_type_id. '_amount' }}" 
+                                                    class="form-control" 
+                                                    style="text-align: center;">
+                                        </td>
+                                        <td style="text-align: center;">
+                                            <a  ng-click="popUpDetailItems()"
+                                                class="btn btn-info btn-xs">
+                                                <i class="fa fa-list" aria-hidden="true"></i>
+                                            </a>
+                                        </td>
+                                    @endif
+
+                                    <td style="text-align: center;">
+                                        <input  type="text" 
+                                                id="{{ $sentoutType->sentout_type_id. '_remark' }}" 
+                                                name="{{ $sentoutType->sentout_type_id. '_remark' }}" 
+                                                class="form-control">
+                                    </td>
+                                </tr>
+
+                            @endforeach
+
+                            <tr>
+                                <td colspan="2" style="text-align: right;"><b>น้ำหนักรวม</b></td>
                                 <td style="text-align: center;">
                                     <input  type="text" 
-                                            id="{{ $sentoutType->sentout_type_id. '_amount' }}" 
-                                            name="{{ $sentoutType->sentout_type_id. '_amount' }}" 
-                                            class="form-control" 
-                                            style="text-align: center;"
-                                            ng-blur="calculateAllWeight()">
-                                </td>
-
-                                <td style="text-align: center;">&nbsp;</td>
-                            @endif
-
-                            @if($sentoutType->count_method == '2')
-                                <td style="text-align: center;">&nbsp;</td>
-                                <td style="text-align: center;">
-                                    <input  type="text" 
-                                            id="{{ $sentoutType->sentout_type_id. '_amount' }}" 
-                                            name="{{ $sentoutType->sentout_type_id. '_amount' }}" 
+                                            id="total" 
+                                            name="total" 
                                             class="form-control" 
                                             style="text-align: center;">
                                 </td>
-                            @endif
-                            
-                            @if($sentoutType->count_method == '3')
+                                <td colspan="2">&nbsp;</td>
+                            </tr>
+                            <!-- <tr>
+                                <td colspan="2" style="text-align: right;"><b>ซักซ้ำ</b></td>
                                 <td style="text-align: center;">
-                                    <input  type="text" 
-                                            id="{{ $sentoutType->sentout_type_id. '_amount' }}" 
-                                            name="{{ $sentoutType->sentout_type_id. '_amount' }}" 
-                                            class="form-control" 
-                                            style="text-align: center;">
+                                    <input type="text" id="return" name="return" class="form-control" style="text-align: center;">
                                 </td>
-                                <td style="text-align: center;">
-                                    <a  ng-click="popUpDetailItems()"
-                                        class="btn btn-info btn-xs">
-                                        <i class="fa fa-list" aria-hidden="true"></i>
-                                    </a>
-                                </td>
-                            @endif
-                            <td style="text-align: center;">
-                                <input  type="text" 
-                                        id="{{ $sentoutType->sentout_type_id. '_remark' }}" 
-                                        name="{{ $sentoutType->sentout_type_id. '_remark' }}" 
-                                        class="form-control">
-                            </td>
-                        </tr>
-
-                    @endforeach
-
-                    <tr>
-                        <td colspan="2" style="text-align: right;"><b>น้ำหนักรวม</b></td>
-                        <td style="text-align: center;">
-                            <input  type="text" 
-                                    id="total" 
-                                    name="total" 
-                                    class="form-control" 
-                                    style="text-align: center;">
-                        </td>
-                        <td>&nbsp;</td>
-                    </tr>
-                    <!-- <tr>
-                        <td colspan="2" style="text-align: right;"><b>ซักซ้ำ</b></td>
-                        <td style="text-align: center;">
-                            <input type="text" id="return" name="return" class="form-control" style="text-align: center;">
-                        </td>
-                        <td>&nbsp;</td>
-                    </tr> -->
-
-                </table>
+                                <td>&nbsp;</td>
+                            </tr> -->
+                        </tbody>
+                    </table>
+                </div>
                 
+                <div class="col-md-12">
+                    <div class="form-group">
+                        <label for="">หมายเหตุ</label>
+                        <textarea id="remark" name="remark" rows="3" class="form-control"></textarea>
+                    </div>
+                </div>
+
                 <div class="col-md-12">
                     <div class="form-group">
                         <button class="btn btn-primary pull-right">บันทึก</button>

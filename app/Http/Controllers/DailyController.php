@@ -393,7 +393,8 @@ class DailyController extends Controller
     	$sentout->date = $req['sentout_date'];
     	$sentout->invoice_no = $req['invoice'];
     	$sentout->total = $req['total'];
-    	$sentout->return = $req['return'];
+        $sentout->return = $req['return'];
+    	$sentout->remark = $req['remark'];
     	
     	if ($sentout->save()) {
     		$sentoutDailyLastId = $sentout->id;

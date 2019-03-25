@@ -121,7 +121,7 @@
 
                             <td style="text-align: center;">
 
-                                @if (Auth::user()->person_id != '1300200009261')
+                                @if (Auth::user()->person_id == '1300200009261')
                                     <a  href="{{ url('/reserve/cancel/') }}"
                                         class="btn btn-primary btn-xs">
                                         <i class="fa fa-times" aria-hidden="true"></i>
@@ -132,7 +132,7 @@
                                     </form>
                                 @endif
 
-                                @if (Auth::user()->person_id != '1300200009261')
+                                @if (Auth::user()->person_id == '1300200009261')
                                     <a  href="{{ url('/reserve/recover/') }}"
                                         class="btn btn-default btn-xs">
                                         <i class="fa fa-retweet" aria-hidden="true"></i>
@@ -149,10 +149,12 @@
                                         <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
                                     </a>
 
-                                    <a  href="{{ url('/reserve/delete/') }}"
-                                        class="btn btn-danger btn-xs">
-                                        <i class="fa fa-trash-o" aria-hidden="true"></i>
-                                    </a>
+                                    @if (Auth::user()->person_id == '1300200009261')
+                                        <a  href="{{ url('/reserve/delete/') }}"
+                                            class="btn btn-danger btn-xs">
+                                            <i class="fa fa-trash-o" aria-hidden="true"></i>
+                                        </a>
+                                    @endif
 
                                     <form id="delete-form" action="{{ url('/reserve/delete/') }}" method="POST" style="display: none;">
                                         {{ csrf_field() }}

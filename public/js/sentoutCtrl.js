@@ -16,8 +16,8 @@ app.controller('sentoutCtrl', function($scope, $http, toaster, ModalService, CON
 
 	$scope.calculateAllWeight = function () {
 		console.log(event.target)
-		$scope.sentoutTotalWeight += ($("#"+event.target.id).val() == '') ? 0 : parseInt($("#"+event.target.id).val());
-		$("#total").val($scope.sentoutTotalWeight)
+		$scope.sentoutTotalWeight += ($("#"+event.target.id).val() == '') ? 0 : parseFloat($("#"+event.target.id).val());
+		$("#total").val($scope.sentoutTotalWeight.toFixed(2))
 	}
 
 	$scope.submitSentoutForm = function () {				
