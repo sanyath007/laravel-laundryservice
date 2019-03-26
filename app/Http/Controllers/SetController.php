@@ -38,10 +38,12 @@ class SetController extends Controller
         if ($substock == 14) {
             $sets = Set::where(['set_type' => '1'])
                             ->where(['status' => '1'])
+                            ->orderBy('sort', 'ASC')
                             ->get();
         } else if ($substock == 13) {
             $sets = Set::where(['set_type' => '2'])
                             ->where(['status' => '1'])
+                            ->orderBy('sort', 'ASC')
                             ->get();
         }
 

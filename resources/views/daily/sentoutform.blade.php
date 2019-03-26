@@ -56,8 +56,8 @@
                                     @if($sentoutType->count_method == '1')
                                         <td style="text-align: center;">
                                             <input  type="text" 
-                                                    id="{{ $sentoutType->sentout_type_id. '_amount' }}" 
-                                                    name="{{ $sentoutType->sentout_type_id. '_amount' }}" 
+                                                    id="{{ $sentoutType->sentout_type_id. '_weight' }}" 
+                                                    name="{{ $sentoutType->sentout_type_id. '_weight' }}" 
                                                     class="form-control" 
                                                     style="text-align: center;"
                                                     ng-blur="calculateAllWeight()">
@@ -80,10 +80,11 @@
                                     @if($sentoutType->count_method == '3')
                                         <td style="text-align: center;">
                                             <input  type="text" 
-                                                    id="{{ $sentoutType->sentout_type_id. '_amount' }}" 
-                                                    name="{{ $sentoutType->sentout_type_id. '_amount' }}" 
+                                                    id="{{ $sentoutType->sentout_type_id. '_weight' }}" 
+                                                    name="{{ $sentoutType->sentout_type_id. '_weight' }}" 
                                                     class="form-control" 
-                                                    style="text-align: center;">
+                                                    style="text-align: center;"
+                                                    ng-blur="calculateAllWeight()">
                                         </td>
                                         <td style="text-align: center;">
                                             <a  ng-click="popUpDetailItems()"

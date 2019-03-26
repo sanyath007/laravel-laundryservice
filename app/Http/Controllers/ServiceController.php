@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Set;
 
 class ServiceController extends Controller
 {
@@ -23,13 +24,17 @@ class ServiceController extends Controller
 				COUNT(DISTINCT CASE WHEN (leave_time BETWEEN '16:01:00' AND '23:59:59') THEN operation_id END) as evening,
 				COUNT(DISTINCT CASE WHEN (leave_time BETWEEN '00:00:01' AND '07:59:59') THEN operation_id END) as night
 				FROM operation_list 
-				WHERE (operation_date BETWEEN '2019-02-01' AND '2019-02-31')
+				WHERE (operation_date BETWEEN '2019-03-01' AND '2019-03-31')
 				AND (status_id=3)
 				GROUP BY operation_date";
 
     	return view('service.or', [
-    		'orservices' => \DB::connection('hosxp')->select(\DB::raw($sql)),
-    		'_month' => $_month,
+    		'orservices' 	=> \DB::connection('hosxp')->select(\DB::raw($sql)),
+    		'_month' 		=> $_month,
+    		'sets'      	=> Set::where(['set_type' => '1'])
+                                	->where(['status' => '1'])
+                                	->orderBy('sort', 'ASC')
+                                	->get(),
     	]);
     }
 

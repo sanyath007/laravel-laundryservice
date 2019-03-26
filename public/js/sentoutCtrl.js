@@ -7,7 +7,7 @@ app.controller('sentoutCtrl', function($scope, $http, toaster, ModalService, CON
 	// $scope.assignDate = moment(dateNow)
 	$scope.drapeforward = []
 	$scope.stocks = []
-	$scope.sentoutTotalWeight = 0
+	$scope.sentoutTotalWeight = 0.0
 	$scope.allDrapes = []
 
 	$scope.testFunc = function () {
@@ -15,8 +15,13 @@ app.controller('sentoutCtrl', function($scope, $http, toaster, ModalService, CON
 	}
 
 	$scope.calculateAllWeight = function () {
-		console.log(event.target)
-		$scope.sentoutTotalWeight += ($("#"+event.target.id).val() == '') ? 0 : parseFloat($("#"+event.target.id).val());
+		console.log($('input[name*="weight"]'))
+		$scope.sentoutTotalWeight = 0.0
+
+		angular.forEach($('input[name*="weight"]'), function(key) {
+			$scope.sentoutTotalWeight += ($(key).val() == '') ? 0.0 : parseFloat($(key).val());
+		});
+
 		$("#total").val($scope.sentoutTotalWeight.toFixed(2))
 	}
 

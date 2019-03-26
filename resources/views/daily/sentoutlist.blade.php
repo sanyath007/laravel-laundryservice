@@ -27,7 +27,8 @@
                             id="_month" 
                             name="_month" 
                             value="<?=$_month?>"
-                            class="form-control">
+                            class="form-control"
+                            style="text-align: center;">
                 </div>
             </form><br>
 
@@ -132,11 +133,11 @@
 
                             <td style="text-align: center;">
                                 @if (Auth::user()->person_id == '1300200009261')                  
-                                    <a  href="{{ url('/print/print.php') }}?id={{ ($sentout2) ? $sentout2->id : '' }}" 
+                                    <!-- <a  href="{{ url('/print/print.php') }}?id={{ ($sentout2) ? $sentout2->id : '' }}" 
                                         class="btn btn-success btn-xs"
                                         target="_blank">
                                         <i class="fa fa-print" aria-hidden="true"></i>
-                                    </a>
+                                    </a> -->
                                 @endif
                                     
                                 <a  href="{{ url('/reserve/edit/') }}" 
@@ -145,25 +146,25 @@
                                 </a>
                                 
                                 @if (Auth::user()->person_id == '1300200009261')
-                                    <a  href="{{ url('/reserve/cancel/') }}"
+                                    <!-- <a  href="{{ url('/reserve/cancel/') }}"
                                         class="btn btn-primary btn-xs">
                                         <i class="fa fa-times" aria-hidden="true"></i>
                                     </a>
 
                                     <form id="cancel-form" action="{{ url('/reserve/cancel/') }}" method="POST" style="display: none;">
                                         {{ csrf_field() }}
-                                    </form>
+                                    </form> -->
                                 @endif
 
                                 @if (Auth::user()->person_id == '1300200009261')
-                                    <a  href="{{ url('/reserve/recover/') }}"
+                                    <!-- <a  href="{{ url('/reserve/recover/') }}"
                                         class="btn btn-default btn-xs">
                                         <i class="fa fa-retweet" aria-hidden="true"></i>
                                     </a>
 
                                     <form id="recover-form" action="{{ url('/reserve/recover/') }}" method="POST" style="display: none;">
                                         {{ csrf_field() }}
-                                    </form>                                
+                                    </form> -->                                
 
                                     <a  href="{{ url('/reserve/delete/') }}"
                                         class="btn btn-danger btn-xs">
@@ -278,11 +279,11 @@
 
                             <td style="text-align: center;">
                                 @if (Auth::user()->person_id == '1300200009261')                               
-                                    <a  href="{{ url('/print/print.php') }} ?id={{ ($sentout2) ? $sentout2->id : '' }}" 
+                                    <!-- <a  href="{{ url('/print/print.php') }} ?id={{ ($sentout2) ? $sentout2->id : '' }}" 
                                         class="btn btn-success btn-xs"
                                         target="_blank">
                                         <i class="fa fa-print" aria-hidden="true"></i>
-                                    </a>
+                                    </a> -->
                                 @endif
 
                                 <a  href="{{ url('/reserve/edit/') }}" 
@@ -291,25 +292,25 @@
                                 </a>
                                     
                                 @if (Auth::user()->person_id == '1300200009261')
-                                    <a  href="{{ url('/reserve/cancel/') }}"
+                                    <!-- <a  href="{{ url('/reserve/cancel/') }}"
                                         class="btn btn-primary btn-xs">
                                         <i class="fa fa-times" aria-hidden="true"></i>
                                     </a>
 
                                     <form id="cancel-form" action="{{ url('/reserve/cancel/') }}" method="POST" style="display: none;">
                                         {{ csrf_field() }}
-                                    </form>
+                                    </form> -->
                                 @endif
 
                                 @if (Auth::user()->person_id == '1300200009261')
-                                    <a  href="{{ url('/reserve/recover/') }}"
+                                    <!-- <a  href="{{ url('/reserve/recover/') }}"
                                         class="btn btn-default btn-xs">
                                         <i class="fa fa-retweet" aria-hidden="true"></i>
                                     </a>
 
                                     <form id="recover-form" action="{{ url('/reserve/recover/') }}" method="POST" style="display: none;">
                                         {{ csrf_field() }}
-                                    </form>
+                                    </form> -->
 
                                     <a  href="{{ url('/reserve/delete/') }}"
                                         class="btn btn-danger btn-xs">

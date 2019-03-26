@@ -29,7 +29,8 @@
                             id="_month" 
                             name="_month" 
                             value="{{ $_month }}"
-                            class="form-control">
+                            class="form-control"
+                            style="text-align: center;">
                 </div>
             </form><br>
 
@@ -38,19 +39,17 @@
                     <tr>
                         <!-- <th style="width: 4%; text-align: center;">#</th> -->
                         <th style="text-align: center;">วัน/เดือน/ปี</th>
-                        <th style="width: 5%; text-align: center;">ทั้งหมด</th>
-                        <th style="width: 5%; text-align: center;">ทั่วไป</th>
-                        <th style="width: 5%; text-align: center;">จักษุ</th>
-                        <th style="width: 5%; text-align: center;">ออร์โธ</th>
-                        <th style="width: 5%; text-align: center;"><เที่ยง</th>
-                        <th style="width: 5%; text-align: center;">>เที่ยง</th>
-                        <th style="width: 5%; text-align: center;">บ่าย</th>
-                        <th style="width: 5%; text-align: center;">ดึก</th>
-
-                        <th style="width: 5%; text-align: center;">Large</th>
-                        <th style="width: 5%; text-align: center;">Lap</th>
-                        <th style="width: 5%; text-align: center;">ตา</th>
-                        <th style="width: 5%; text-align: center;">กาวน์</th>
+                        <th style="width: 6%; text-align: center;">ทั้งหมด</th>
+                        <th style="width: 6%; text-align: center;">ทั่วไป</th>
+                        <th style="width: 6%; text-align: center;">จักษุ</th>
+                        <th style="width: 6%; text-align: center;">ออร์โธ</th>
+                        <th style="width: 6%; text-align: center;"><เที่ยง</th>
+                        <th style="width: 6%; text-align: center;">>เที่ยง</th>
+                        <th style="width: 6%; text-align: center;">บ่าย</th>
+                        <th style="width: 6%; text-align: center;">ดึก</th>
+                        @foreach($sets as $set)
+                            <th style="width: 7%; text-align: center;">{{ $set->set_name }}</th>
+                        @endforeach
                     </tr>
 
                     @foreach($orservices as $orservice)
@@ -82,7 +81,20 @@
                             </td>
                             <td style="text-align: center;">
                                 {{ $orservice->night }}
-                            </td>                            
+                            </td>     
+
+                            @foreach($sets as $set)                       
+                                <?php $set = DB::table("setdrape_daily")
+                                                ->select('*')
+                                                ->join('setdrape_daily_detail', 'setdrape_daily.id', '=', 'setdrape_daily_detail.setdrape_daily_id')  
+                                                ->where(['setdrape_daily.date' => $orservice->operation_date])
+                                                ->where(['setdrape_daily_detail.set_id' => $set->id])
+                                                ->first();
+                                ?>
+                                <td style="text-align: center;">
+                                    {{ ($set) ? (int)$set->stock_amt + (int)$set->sentin1_amt + (int)$set->sentin2_amt + (int)$set->sentin3_amt : '' }}
+                                </td> 
+                            @endforeach                     
                         </tr>
 
                     @endforeach

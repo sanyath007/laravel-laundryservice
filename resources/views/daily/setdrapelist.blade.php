@@ -47,12 +47,13 @@
             <div class="table-responsive">
                 <table class="table table-striped table-bordered" style="font-size: 8pt;">
                     <tr>
-                        <th style="text-align: center; width: 10%;" rowspan="2">วันที่</th>                        
-                        <th style="text-align: center;" colspan="4">เซตตา</th>
-                        <th style="text-align: center;" colspan="4">เซต Lap</th>
-                        <th style="text-align: center;" colspan="4">เซต Large</th>
-                        <th style="text-align: center;" colspan="4">เซตกาวน์</th>
-                        <th style="text-align: center; width: 8%;" rowspan="2">Actions</th>                        
+                        <th style="text-align: center; width: 10%;" rowspan="2">วันที่</th>
+
+                        @foreach($sets as $set)
+                            <th style="text-align: center;" colspan="4">{{ $set->set_name }}</th>
+                        @endforeach     
+
+                        <th style="text-align: center; width: 8%;" rowspan="2">Actions</th>
                     </tr>
                     <tr>
                         <!-- Large -->
@@ -75,6 +76,16 @@
                         <th style="text-align: center; width: 5%;">ส่งซัก</th>
                         <th style="text-align: center; width: 5%;">จ่าย</th>
                         <th style="text-align: center; width: 5%;">คงเหลือ</th>
+                        <!-- Dispose L -->
+                        <th style="text-align: center; width: 5%;">สต๊อก</th>
+                        <th style="text-align: center; width: 5%;">ส่งซัก</th>
+                        <th style="text-align: center; width: 5%;">จ่าย</th>
+                        <th style="text-align: center; width: 5%;">คงเหลือ</th>
+                        <!-- Dispose XL -->
+                        <th style="text-align: center; width: 5%;">สต๊อก</th>
+                        <th style="text-align: center; width: 5%;">ส่งซัก</th>
+                        <th style="text-align: center; width: 5%;">จ่าย</th>
+                        <th style="text-align: center; width: 5%;">คงเหลือ</th>
                     </tr>                    
                     
                     <?php $index = 0; ?>
@@ -83,14 +94,14 @@
                         <tr>
                             <td style="text-align: center;">{{ $_month.'-'.$d }}</td>
 
-                            @for($s = 1; $s <= 4; $s++)
+                            @foreach($sets as $set)
 
                                 <?php $set = DB::table("setdrape_daily")
-                                                    ->select('*')
-                                                    ->join('setdrape_daily_detail', 'setdrape_daily.id', '=', 'setdrape_daily_detail.setdrape_daily_id')  
-                                                    ->where(['setdrape_daily.date' => $_month. '-' .$d])
-                                                    ->where(['setdrape_daily_detail.set_id' => $s])
-                                                    ->first();
+                                                ->select('*')
+                                                ->join('setdrape_daily_detail', 'setdrape_daily.id', '=', 'setdrape_daily_detail.setdrape_daily_id')  
+                                                ->where(['setdrape_daily.date' => $_month. '-' .$d])
+                                                ->where(['setdrape_daily_detail.set_id' => $set->id])
+                                                ->first();
                                 ?>
 
                                 <td style="text-align: center;">
@@ -108,7 +119,7 @@
                                     </b>
                                 </td>
 
-                             @endfor
+                            @endforeach
 
                             <?php $setOr = DB::table("setdrape_daily")
                                                 ->select('setdrape_daily.id','setdrape_daily.date','setdrape_daily.stock_id','setdrape_daily_detail.set_id','setdrape_daily_detail.stock_amt','setdrape_daily_detail.request_amt','setdrape_daily_detail.sentin1_amt')
@@ -122,25 +133,25 @@
                             <td style="text-align: center;">
 
                                 @if (Auth::user()->person_id == '1300200009261')
-                                    <a  href="{{ url('/reserve/cancel/') }}"
+                                    <!-- <a  href="{{ url('/reserve/cancel/') }}"
                                         class="btn btn-primary btn-xs">
                                         <i class="fa fa-times" aria-hidden="true"></i>
                                     </a>
 
                                     <form id="cancel-form" action="{{ url('/reserve/cancel/') }}" method="POST" style="display: none;">
                                         {{ csrf_field() }}
-                                    </form>
+                                    </form> -->
                                 @endif
 
                                 @if (Auth::user()->person_id == '1300200009261')
-                                    <a  href="{{ url('/reserve/recover/') }}"
+                                    <!-- <a  href="{{ url('/reserve/recover/') }}"
                                         class="btn btn-default btn-xs">
                                         <i class="fa fa-retweet" aria-hidden="true"></i>
                                     </a>
 
                                     <form id="recover-form" action="{{ url('/reserve/recover/') }}" method="POST" style="display: none;">
                                         {{ csrf_field() }}
-                                    </form>
+                                    </form> -->
                                 @endif
                                 
                                 @if ($setOr)
@@ -150,15 +161,15 @@
                                     </a>
 
                                     @if (Auth::user()->person_id == '1300200009261')
-                                        <a  href="{{ url('/reserve/delete/') }}"
+                                        <!-- <a  href="{{ url('/reserve/delete/') }}"
                                             class="btn btn-danger btn-xs">
                                             <i class="fa fa-trash-o" aria-hidden="true"></i>
-                                        </a>
-                                    @endif
+                                        </a>                                    
 
-                                    <form id="delete-form" action="{{ url('/reserve/delete/') }}" method="POST" style="display: none;">
-                                        {{ csrf_field() }}
-                                    </form>
+                                        <form id="delete-form" action="{{ url('/reserve/delete/') }}" method="POST" style="display: none;">
+                                            {{ csrf_field() }}
+                                        </form> -->
+                                    @endif
                                 
                                     <a  href="{{ url('/daily/setdrape/form2') }}/14/{{ ($setOr) ? $setOr->id : '' }}/{{ (is_null($setOr->sentin1_amt)) ? '0' : '1' }}" 
                                         class="btn btn-primary btn-xs">

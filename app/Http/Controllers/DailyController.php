@@ -229,7 +229,10 @@ class DailyController extends Controller
     public function setdrapelist ()
     {
         return view('daily.setdrapelist', [
-            'sets'      => Set::orderBy('id', 'ASC')->get(),
+            'sets'      => Set::where(['set_type' => '1'])
+                                ->where(['status' => '1'])
+                                ->orderBy('sort', 'ASC')
+                                ->get(),
             'stocks'    => Substock::whereIn('id', ['13', '14'])->get(),
             '_month'    => (!Input::get('_month')) ? date('Y-m') : Input::get('_month'),
             '_stock'    => (!Input::get('_stock')) ? '' : Input::get('_stock'),
@@ -240,7 +243,7 @@ class DailyController extends Controller
     {
         return view('daily.setdrapeform', [
             'stocks'    => Substock::whereIn('id', ['13', '14'])->get(),
-            'sets'      => Set::orderBy('id', 'ASC')->get(),
+            'sets'      => Set::orderBy('sort', 'ASC')->get(),
             // '_stock'    => $sentins[0]->stock_id,
         ]);
     }
@@ -250,9 +253,9 @@ class DailyController extends Controller
         date_default_timezone_set('Asia/Bangkok');
 
         if ($req['_stock'] == '14'){
-            $sets = Set::where(['set_type' => '1'])->where(['status' => '1'])->orderBy('id', 'ASC')->get();
+            $sets = Set::where(['set_type' => '1'])->where(['status' => '1'])->orderBy('sort', 'ASC')->get();
         } else if ($req['_stock'] == '13'){
-            $sets = Set::where(['set_type' => '2'])->where(['status' => '1'])->orderBy('id', 'ASC')->get();
+            $sets = Set::where(['set_type' => '2'])->where(['status' => '1'])->orderBy('sort', 'ASC')->get();
         }
 
         $setdrape = new SetdrapeDaily();
@@ -287,9 +290,9 @@ class DailyController extends Controller
     public function setdrapeform2 ($stock, $id, $isnew)
     {
         if ($stock == '14'){
-            $sets = Set::where(['set_type' => '1'])->where(['status' => '1'])->orderBy('id', 'ASC')->get();
+            $sets = Set::where(['set_type' => '1'])->where(['status' => '1'])->orderBy('sort', 'ASC')->get();
         } else if ($stock == '13'){
-            $sets = Set::where(['set_type' => '2'])->where(['status' => '1'])->orderBy('id', 'ASC')->get();
+            $sets = Set::where(['set_type' => '2'])->where(['status' => '1'])->orderBy('sort', 'ASC')->get();
         }
 
         return view('daily.setdrapeform2', [
@@ -306,9 +309,9 @@ class DailyController extends Controller
         date_default_timezone_set('Asia/Bangkok');
 
         if ($req['_stock'] == '14'){
-            $sets = Set::where(['set_type' => '1'])->where(['status' => '1'])->orderBy('id', 'ASC')->get();
+            $sets = Set::where(['set_type' => '1'])->where(['status' => '1'])->orderBy('sort', 'ASC')->get();
         } else if ($req['_stock'] == '13'){
-            $sets = Set::where(['set_type' => '2'])->where(['status' => '1'])->orderBy('id', 'ASC')->get();
+            $sets = Set::where(['set_type' => '2'])->where(['status' => '1'])->orderBy('sort', 'ASC')->get();
         }
 
         $setdrape = SetdrapeDaily::find($req['_id']);
@@ -339,9 +342,9 @@ class DailyController extends Controller
         date_default_timezone_set('Asia/Bangkok');
 
         if ($req['_stock'] == '14'){
-            $sets = Set::where(['set_type' => '1'])->where(['status' => '1'])->orderBy('id', 'ASC')->get();
+            $sets = Set::where(['set_type' => '1'])->where(['status' => '1'])->orderBy('sort', 'ASC')->get();
         } else if ($req['_stock'] == '13'){
-            $sets = Set::where(['set_type' => '2'])->where(['status' => '1'])->orderBy('id', 'ASC')->get();
+            $sets = Set::where(['set_type' => '2'])->where(['status' => '1'])->orderBy('sort', 'ASC')->get();
         }
 
         $setdrape = SetdrapeDaily::find($req['_id']);
@@ -402,12 +405,17 @@ class DailyController extends Controller
     		foreach ($sentoutTypes as $sentoutType) {
                 $sentoutTypeId = $sentoutType->sentout_type_id;
 
-	    		if ($req[$sentoutTypeId. '_amount']) {
+	    		if ($req[$sentoutTypeId. '_amount'] || $req[$sentoutTypeId. '_weight']) {
                     // dd($sentoutType);
 	    			$detail = new SentoutDailyDetail();
 	    			$detail->sentout_daily_id = $sentoutDailyLastId;
 	    			$detail->sentout_type_id = $sentoutTypeId;
-	    			$detail->amount = $req[$sentoutTypeId. '_amount'];
+
+                    if($sentoutType->count_method == 1){
+                        $detail->amount = $req[$sentoutTypeId. '_weight'];
+                    } else {
+    	    			$detail->amount = $req[$sentoutTypeId. '_amount'];
+                    }
 	    			// $detail->return = $req[$sentoutTypeId. '_return'];
 	    			$detail->remark = $req[$sentoutTypeId. '_remark'];
 	    			$detail->save();
