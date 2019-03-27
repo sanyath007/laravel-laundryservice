@@ -7,7 +7,9 @@
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </button>
-      <a class="navbar-brand" href="#">Laundry Service</a>
+      <a class="navbar-brand" href="#">
+        งานซักฟอก
+      </a>
     </div>
 
     <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
@@ -85,34 +87,18 @@
           </li> -->
           <li class="dropdown">
             <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
-              ข้อมูลการให้บริการ
+              รายงาน
               <span class="caret"></span>
             </a>
             <ul class="dropdown-menu">
-              <li><a href="{{ url('/service/or') .'/'. date('Y-m') }}">ข้อมูลการให้บริการ OR</a></li>
-              <li><a href="{{ url('/service/ip') .'/'. date('Y-m-d') }}">ข้อมูลการให้บริการ IP</a></li>
+              <li><a href="{{ url('/service/or') .'/'. date('Y-m') }}">เซตผ้า OR กับการให้บริการ OR</a></li>
+              <li><a href="{{ url('/service/ip') .'/'. date('Y-m-d') }}">ผ้าผู้ป่วยกับการให้บริการ IP</a></li>
               <!-- <li><a href="#">สรุปยอดขายรายเดือน</a></li>
               <li role="separator" class="divider"></li>
               <li><a href="#">รายงานสต๊อกสินค้า</a></li>
               <li role="separator" class="divider"></li>
               <li><a href="#">รายงานลูกหนี้</a></li>
               <li><a href="#">รายงานเจ้าหนี้</a></li> -->
-            </ul>
-          </li>
-          <li class="dropdown">
-            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
-              รายงาน
-              <span class="caret"></span>
-            </a>
-            <ul class="dropdown-menu">
-              <li><a href="#">รายงานยอดขายรายวัน</a></li>
-              <li><a href="#">สรุปยอดขายรายวัน</a></li>
-              <li><a href="#">สรุปยอดขายรายเดือน</a></li>
-              <li role="separator" class="divider"></li>
-              <li><a href="#">รายงานสต๊อกสินค้า</a></li>
-              <li role="separator" class="divider"></li>
-              <li><a href="#">รายงานลูกหนี้</a></li>
-              <li><a href="#">รายงานเจ้าหนี้</a></li>
             </ul>
           </li>
         @endif

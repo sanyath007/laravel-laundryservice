@@ -4,19 +4,19 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Input;
-use App\Drape;
-use App\Set;
-use App\SetDrape;
-use App\DrapeCate;
-use App\DrapeType;
-use App\Substock;
+use App\Models\Drape;
+use App\Models\Set;
+use App\Models\SetDrape;
+use App\Models\DrapeCate;
+use App\Models\DrapeType;
+use App\Models\Substock;
 use App\ReceivedDaily;
 use App\ReceivedDailyDetail;
 use App\SentinDaily;
 use App\SentinDailyDetail;
 use App\SentoutDaily;
 use App\SentoutDailyDetail;
-use App\SentoutType;
+use App\Models\SentoutType;
 use App\SetdrapeDaily;
 use App\SetdrapeDailyDetail;
 use App\SentoutDailyDetailItem;
@@ -226,6 +226,108 @@ class DailyController extends Controller
         ]);
     }
 
+    public function sentoutlist ()
+    {
+        return view('daily.sentoutlist', [
+            'sentoutTypes'  => SentoutType::orderBy('sentout_type_id', 'ASC')->get(),
+            '_month'        => (!Input::get('_month')) ? date('Y-m') : Input::get('_month'),
+        ]);
+    }
+
+    public function sentoutform ()
+    {
+        return view('daily.sentoutform', [
+            'sentoutTypes' => SentoutType::orderBy('sentout_type_id', 'ASC')
+                                        ->get()
+        ]);
+    }
+
+    public function sentoutadd(Request $req)
+    {   
+        $sentoutTypes = SentoutType::orderBy('sentout_type_id', 'ASC')
+                                    ->get();
+
+        $sentout = new SentoutDaily();
+        $sentout->date = $req['sentout_date'];
+        $sentout->invoice_no = $req['invoice'];
+        $sentout->total = $req['total'];
+        $sentout->return = $req['return'];
+        $sentout->remark = $req['remark'];
+        
+        if ($sentout->save()) {
+            $sentoutDailyLastId = $sentout->id;
+
+            foreach ($sentoutTypes as $sentoutType) {
+                $sentoutTypeId = $sentoutType->sentout_type_id;
+
+                if ($req[$sentoutTypeId. '_amount'] || $req[$sentoutTypeId. '_weight']) {
+                    // dd($sentoutType);
+                    $detail = new SentoutDailyDetail();
+                    $detail->sentout_daily_id = $sentoutDailyLastId;
+                    $detail->sentout_type_id = $sentoutTypeId;
+
+                    if($sentoutType->count_method == 1){
+                        $detail->amount = $req[$sentoutTypeId. '_weight'];
+                    } else {
+                        $detail->amount = $req[$sentoutTypeId. '_amount'];
+                    }
+                    // $detail->return = $req[$sentoutTypeId. '_return'];
+                    $detail->remark = $req[$sentoutTypeId. '_remark'];
+                    $detail->save();
+                }
+            }
+        }
+
+        return redirect('daily/sentout/list');
+    }
+
+    public function sentoutEdit ($id)
+    {
+        return view('daily.sentoutedit', [
+            'sentoutTypes'      => SentoutType::orderBy('sentout_type_id', 'ASC')->get(),
+            'sentout'           => SentoutDaily::find($id),
+        ]);
+    }
+
+    public function sentoutUpdate(Request $req)
+    {   
+        $sentoutTypes = SentoutType::orderBy('sentout_type_id', 'ASC')
+                                    ->get();
+
+        $sentout = SentoutDaily::find($req['id']);
+        $sentout->date = $req['sentout_date'];
+        $sentout->invoice_no = $req['invoice'];
+        $sentout->total = $req['total'];
+        $sentout->return = $req['return'];
+        $sentout->remark = $req['remark'];
+        
+        if ($sentout->save()) {
+            $sentoutDailyLastId = $sentout->id;
+
+            foreach ($sentoutTypes as $sentoutType) {
+                $sentoutTypeId = $sentoutType->sentout_type_id;
+
+                if ($req[$sentoutTypeId. '_amount'] || $req[$sentoutTypeId. '_weight']) {
+                    // dd($sentoutType);
+                    $detail = new SentoutDailyDetail();
+                    $detail->sentout_daily_id = $sentoutDailyLastId;
+                    $detail->sentout_type_id = $sentoutTypeId;
+
+                    if($sentoutType->count_method == 1){
+                        $detail->amount = $req[$sentoutTypeId. '_weight'];
+                    } else {
+                        $detail->amount = $req[$sentoutTypeId. '_amount'];
+                    }
+                    // $detail->return = $req[$sentoutTypeId. '_return'];
+                    $detail->remark = $req[$sentoutTypeId. '_remark'];
+                    $detail->save();
+                }
+            }
+        }
+
+        return redirect('daily/sentout/list');
+    }
+
     public function setdrapelist ()
     {
         return view('daily.setdrapelist', [
@@ -369,61 +471,6 @@ class DailyController extends Controller
         }
 
         return redirect('daily/setdrape/list');
-    }
-
-    public function sentoutlist ()
-    {
-    	return view('daily.sentoutlist', [
-    		'sentoutTypes'  => SentoutType::orderBy('sentout_type_id', 'ASC')->get(),
-    		'_month'        => (!Input::get('_month')) ? date('Y-m') : Input::get('_month'),
-    	]);
-    }
-
-    public function sentoutform ()
-    {
-    	return view('daily.sentoutform', [
-    		'sentoutTypes' => SentoutType::orderBy('sentout_type_id', 'ASC')
-    									->get()
-    	]);
-    }
-
-    public function sentoutadd(Request $req)
-    {	
-    	$sentoutTypes = SentoutType::orderBy('sentout_type_id', 'ASC')
-    								->get();
-
-    	$sentout = new SentoutDaily();
-    	$sentout->date = $req['sentout_date'];
-    	$sentout->invoice_no = $req['invoice'];
-    	$sentout->total = $req['total'];
-        $sentout->return = $req['return'];
-    	$sentout->remark = $req['remark'];
-    	
-    	if ($sentout->save()) {
-    		$sentoutDailyLastId = $sentout->id;
-
-    		foreach ($sentoutTypes as $sentoutType) {
-                $sentoutTypeId = $sentoutType->sentout_type_id;
-
-	    		if ($req[$sentoutTypeId. '_amount'] || $req[$sentoutTypeId. '_weight']) {
-                    // dd($sentoutType);
-	    			$detail = new SentoutDailyDetail();
-	    			$detail->sentout_daily_id = $sentoutDailyLastId;
-	    			$detail->sentout_type_id = $sentoutTypeId;
-
-                    if($sentoutType->count_method == 1){
-                        $detail->amount = $req[$sentoutTypeId. '_weight'];
-                    } else {
-    	    			$detail->amount = $req[$sentoutTypeId. '_amount'];
-                    }
-	    			// $detail->return = $req[$sentoutTypeId. '_return'];
-	    			$detail->remark = $req[$sentoutTypeId. '_remark'];
-	    			$detail->save();
-	    		}
-	    	}
-    	}
-
-    	return redirect('daily/sentout/list');
     }
 
     public function ajaxpostdetailitems(Request $req)

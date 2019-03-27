@@ -84,7 +84,7 @@
                             </td>     
 
                             @foreach($sets as $set)                       
-                                <?php $set = DB::table("setdrape_daily")
+                                <?php $setData = DB::table("setdrape_daily")
                                                 ->select('*')
                                                 ->join('setdrape_daily_detail', 'setdrape_daily.id', '=', 'setdrape_daily_detail.setdrape_daily_id')  
                                                 ->where(['setdrape_daily.date' => $orservice->operation_date])
@@ -92,7 +92,7 @@
                                                 ->first();
                                 ?>
                                 <td style="text-align: center;">
-                                    {{ ($set) ? (int)$set->stock_amt + (int)$set->sentin1_amt + (int)$set->sentin2_amt + (int)$set->sentin3_amt : '' }}
+                                    {{ ($setData) ? (int)$setData->stock_amt + (int)$setData->sentin1_amt + (int)$setData->sentin2_amt + (int)$setData->sentin3_amt : '' }}
                                 </td> 
                             @endforeach                     
                         </tr>

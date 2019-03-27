@@ -3,8 +3,8 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Drape;
-use App\Substock;
+use App\Models\Drape;
+use App\Models\Substock;
 
 class DrapeController extends Controller
 {

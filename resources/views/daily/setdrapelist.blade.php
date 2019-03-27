@@ -47,45 +47,46 @@
             <div class="table-responsive">
                 <table class="table table-striped table-bordered" style="font-size: 8pt;">
                     <tr>
-                        <th style="text-align: center; width: 10%;" rowspan="2">วันที่</th>
+                        <th style="text-align: center; width: 8%;" rowspan="2">วันที่</th>
 
                         @foreach($sets as $set)
                             <th style="text-align: center;" colspan="4">{{ $set->set_name }}</th>
                         @endforeach     
 
-                        <th style="text-align: center; width: 8%;" rowspan="2">Actions</th>
+                        <th style="text-align: center; width: 3%;" rowspan="2">หมายเหตุ</th>
+                        <th style="text-align: center; width: 6%;" rowspan="2">Actions</th>
                     </tr>
                     <tr>
                         <!-- Large -->
-                        <th style="text-align: center; width: 5%;">สต๊อก</th>
-                        <th style="text-align: center; width: 5%;">ส่งซัก</th>
-                        <th style="text-align: center; width: 5%;">จ่าย</th>
-                        <th style="text-align: center; width: 5%;">คงเหลือ</th>
+                        <th style="text-align: center; width: 3%;">สต๊อก</th>
+                        <th style="text-align: center; width: 3%;">ส่งซัก</th>
+                        <th style="text-align: center; width: 3%;">จ่าย</th>
+                        <th style="text-align: center; width: 3%;">คงเหลือ</th>
                         <!-- Lap -->
-                        <th style="text-align: center; width: 5%;">สต๊อก</th>
-                        <th style="text-align: center; width: 5%;">ส่งซัก</th>
-                        <th style="text-align: center; width: 5%;">จ่าย</th>
-                        <th style="text-align: center; width: 5%;">คงเหลือ</th>
+                        <th style="text-align: center; width: 3%;">สต๊อก</th>
+                        <th style="text-align: center; width: 3%;">ส่งซัก</th>
+                        <th style="text-align: center; width: 3%;">จ่าย</th>
+                        <th style="text-align: center; width: 3%;">คงเหลือ</th>
                         <!-- เซตตา -->
-                        <th style="text-align: center; width: 5%;">สต๊อก</th>
-                        <th style="text-align: center; width: 5%;">ส่งซัก</th>
-                        <th style="text-align: center; width: 5%;">จ่าย</th>
-                        <th style="text-align: center; width: 5%;">คงเหลือ</th>
+                        <th style="text-align: center; width: 3%;">สต๊อก</th>
+                        <th style="text-align: center; width: 3%;">ส่งซัก</th>
+                        <th style="text-align: center; width: 3%;">จ่าย</th>
+                        <th style="text-align: center; width: 3%;">คงเหลือ</th>
                         <!-- เซตกาวน์ -->
-                        <th style="text-align: center; width: 5%;">สต๊อก</th>
-                        <th style="text-align: center; width: 5%;">ส่งซัก</th>
-                        <th style="text-align: center; width: 5%;">จ่าย</th>
-                        <th style="text-align: center; width: 5%;">คงเหลือ</th>
+                        <th style="text-align: center; width: 3%;">สต๊อก</th>
+                        <th style="text-align: center; width: 3%;">ส่งซัก</th>
+                        <th style="text-align: center; width: 3%;">จ่าย</th>
+                        <th style="text-align: center; width: 3%;">คงเหลือ</th>
                         <!-- Dispose L -->
-                        <th style="text-align: center; width: 5%;">สต๊อก</th>
-                        <th style="text-align: center; width: 5%;">ส่งซัก</th>
-                        <th style="text-align: center; width: 5%;">จ่าย</th>
-                        <th style="text-align: center; width: 5%;">คงเหลือ</th>
+                        <th style="text-align: center; width: 3%;">สต๊อก</th>
+                        <th style="text-align: center; width: 3%;">ส่งซัก</th>
+                        <th style="text-align: center; width: 3%;">จ่าย</th>
+                        <th style="text-align: center; width: 3%;">คงเหลือ</th>
                         <!-- Dispose XL -->
-                        <th style="text-align: center; width: 5%;">สต๊อก</th>
-                        <th style="text-align: center; width: 5%;">ส่งซัก</th>
-                        <th style="text-align: center; width: 5%;">จ่าย</th>
-                        <th style="text-align: center; width: 5%;">คงเหลือ</th>
+                        <th style="text-align: center; width: 3%;">สต๊อก</th>
+                        <th style="text-align: center; width: 3%;">ส่งซัก</th>
+                        <th style="text-align: center; width: 3%;">จ่าย</th>
+                        <th style="text-align: center; width: 3%;">คงเหลือ</th>
                     </tr>                    
                     
                     <?php $index = 0; ?>
@@ -112,24 +113,30 @@
                                 </td>
                                 <td style="text-align: center;">
                                     {{ ($set) ? (int)$set->sentin1_amt + (int)$set->sentin2_amt + (int)$set->sentin3_amt : '' }}
-                                </td>
+                                </td>                                
                                 <td style="text-align: center;">
                                     <b style="color: red;">
                                         {{ ($set) ? (int)$set->stock_amt + (int)$set->sentin1_amt + (int)$set->sentin2_amt + (int)$set->sentin3_amt : '' }}
                                     </b>
                                 </td>
-
                             @endforeach
 
                             <?php $setOr = DB::table("setdrape_daily")
-                                                ->select('setdrape_daily.id','setdrape_daily.date','setdrape_daily.stock_id','setdrape_daily_detail.set_id','setdrape_daily_detail.stock_amt','setdrape_daily_detail.request_amt','setdrape_daily_detail.sentin1_amt')
+                                                ->select('setdrape_daily.id','setdrape_daily.date','setdrape_daily.stock_id','setdrape_daily.remark','setdrape_daily_detail.set_id','setdrape_daily_detail.stock_amt','setdrape_daily_detail.request_amt','setdrape_daily_detail.sentin1_amt')
                                                 ->join('setdrape_daily_detail', 'setdrape_daily.id', '=', 'setdrape_daily_detail.setdrape_daily_id')  
                                                 ->where(['setdrape_daily.date' => $_month. '-' .$d])
                                                 ->where(['setdrape_daily.stock_id' => '14'])
                                                 ->first();
-                                // var_dump($setOr);
                             ?>
-
+                            
+                            <td style="text-align: center;">
+                                <?= (!empty($setOr->remark)) 
+                                    ?   '<span data-balloon="'.$setOr->remark.'" data-balloon-pos="up">
+                                            <i class="fa fa-info-circle fa-2x text-danger" aria-hidden="true"></i>
+                                        </span>' 
+                                    : '' 
+                                ?>
+                            </td>
                             <td style="text-align: center;">
 
                                 @if (Auth::user()->person_id == '1300200009261')

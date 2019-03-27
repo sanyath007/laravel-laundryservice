@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Set;
+use App\Models\Set;
 
 class ServiceController extends Controller
 {

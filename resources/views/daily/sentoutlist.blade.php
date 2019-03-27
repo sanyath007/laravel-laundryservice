@@ -3,6 +3,11 @@
 @section('content')
 
 <div class="container-fluid" ng-controller="sentoutCtrl">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="{{ url('/') }}">หน้าหลัก</a></li>
+        <li class="breadcrumb-item active">ยอดส่งผ้าไปโรงงาน</li>
+    </ol>
+    
     <!-- page title -->
     <div class="page__title">
         <span>ยอดส่งผ้าไปโรงงาน</span>
@@ -140,7 +145,7 @@
                                     </a> -->
                                 @endif
                                     
-                                <a  href="{{ url('/reserve/edit/') }}" 
+                                <a  href="{{ url('/daily/sentout/edit/').'/'.(($sentout2) ? $sentout2->id : '') }}" 
                                     class="btn btn-warning btn-xs">
                                     <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
                                 </a>
@@ -286,7 +291,7 @@
                                     </a> -->
                                 @endif
 
-                                <a  href="{{ url('/reserve/edit/') }}" 
+                                <a  href="{{ url('/daily/sentout/edit/').'/'.(($sentout2) ? $sentout2->id : '') }}" 
                                     class="btn btn-warning btn-xs">
                                     <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
                                 </a>

@@ -3,8 +3,8 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Set;
-use App\Substock;
+use App\Models\Set;
+use App\Models\Substock;
 
 class SetController extends Controller
 {
