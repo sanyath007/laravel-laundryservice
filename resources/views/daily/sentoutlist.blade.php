@@ -186,14 +186,14 @@
             <!-- day1-15 -->
 
             <!-- day16-31 -->
+            <?php $endDate = getDbDateFromString(date("Y-m-t", strtotime(date($_month.'-1')))); ?>
             <div class="table-responsive">
-                {{ date("Y-m-t", strtotime(date($_month.'-1'))) }}
                 <table class="table table-striped table-bordered">
                     <tr>
                         <th style="text-align: center; width: 2%;">#</th>
                         <th style="text-align: center; width: 20%;">รายการผ้า</th>
 
-                        @for($i=16; $i <= 31; $i++)
+                        @for($i=16; $i <= $endDate; $i++)
                             <th style="text-align: center; width: 4%;"><?=$i ?></th>
                         @endfor
                         
@@ -206,7 +206,7 @@
                             <td style="text-align: center;">{{ $sentoutType->sentout_type_id }}</td>
                             <td>{{ $sentoutType->sentout_type_name }} ({{ $sentoutType->unit }})</td>
 
-                            @for($d=16; $d <= 31; $d++)
+                            @for($d=16; $d <= $endDate; $d++)
                                 <?php $sentout = DB::table("sentout_daily")
                                                     ->select('*')
                                                     ->join('sentout_daily_detail', 'sentout_daily.id', '=', 'sentout_daily_detail.sentout_daily_id')  
@@ -249,7 +249,7 @@
                     <tr>
                         <td colspan="2" style="text-align: center;">น้ำหนักรวม</td>
 
-                        @for($d=16; $d <= 31; $d++)
+                        @for($d=16; $d <= $endDate; $d++)
                             <?php 
                                 $sentoutTotal = DB::table("sentout_daily")  
                                                 ->where(['date' => $_month. '-' .$d])
@@ -270,7 +270,7 @@
                     <tr>
                         <td colspan="2" style="text-align: center;">Actions</td>
 
-                        <?php for($d=16; $d <= 31; $d++): ?>
+                        <?php for($d=16; $d <= $endDate; $d++): ?>
                             <?php 
                                 $sentout2 = DB::table("sentout_daily")  
                                                 ->where(['date' => $_month. '-' .$d])
