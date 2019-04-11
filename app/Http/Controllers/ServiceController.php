@@ -3,12 +3,16 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Input;
 use App\Models\Set;
 
 class ServiceController extends Controller
 {
-    public function orperday ($_month) 
+    public function orperday () 
     {	
+    	$sdate = (empty(Input::get('_month'))) ? date('Y-m').'-01' : Input::get('_month').'-01';
+        $edate = date("Y-m-t", strtotime($sdate));
+
     	$sql = "SELECT 
 				operation_date, 
 				COUNT(DISTINCT operation_id) as num, 
@@ -24,13 +28,13 @@ class ServiceController extends Controller
 				COUNT(DISTINCT CASE WHEN (leave_time BETWEEN '16:01:00' AND '23:59:59') THEN operation_id END) as evening,
 				COUNT(DISTINCT CASE WHEN (leave_time BETWEEN '00:00:01' AND '07:59:59') THEN operation_id END) as night
 				FROM operation_list 
-				WHERE (operation_date BETWEEN '2019-03-01' AND '2019-03-31')
+				WHERE (operation_date BETWEEN '".$sdate."' AND '".$edate."')
 				AND (status_id=3)
 				GROUP BY operation_date";
 
     	return view('service.or', [
     		'orservices' 	=> \DB::connection('hosxp')->select(\DB::raw($sql)),
-    		'_month' 		=> $_month,
+    		'_month' 		=> Input::get('_month'),
     		'sets'      	=> Set::where(['set_type' => '1'])
                                 	->where(['status' => '1'])
                                 	->orderBy('sort', 'ASC')

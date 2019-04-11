@@ -119,6 +119,8 @@
             defaultDate: moment(dateNow),
             viewMode: "months"
         }).on('dp.change', function(e) {
+            console.log($("#frm_search").attr('action'));
+            // $("#frm_search").attr('action');
             $("#frm_search").submit();
         });
     });

@@ -99,7 +99,7 @@ Route::group(['middleware' => ['web','auth']], function () {
     Route::get('/set/ajaxsetforstock/{substock}', 'SetController@ajaxsetforstock');
     
     // Service
-    Route::get('/service/or/{_month}', 'ServiceController@orperday');
+    Route::get('/service/or', 'ServiceController@orperday');
     Route::get('/service/ip/{_day}', 'ServiceController@ipperday');
 
     // Stock card

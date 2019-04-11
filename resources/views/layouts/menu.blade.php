@@ -91,7 +91,7 @@
               <span class="caret"></span>
             </a>
             <ul class="dropdown-menu">
-              <li><a href="{{ url('/service/or') .'/'. date('Y-m') }}">เซตผ้า OR กับการให้บริการ OR</a></li>
+              <li><a href="{{ url('/service/or') }}">เซตผ้า OR กับการให้บริการ OR</a></li>
               <li><a href="{{ url('/service/ip') .'/'. date('Y-m-d') }}">ผ้าผู้ป่วยกับการให้บริการ IP</a></li>
               <!-- <li><a href="#">สรุปยอดขายรายเดือน</a></li>
               <li role="separator" class="divider"></li>
