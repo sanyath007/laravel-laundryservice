@@ -25,18 +25,30 @@ class DailyController extends Controller
 {
     public function receivedlist ()
     {
-    	return view('daily.receivedlist', [
-    		'drapeCates' => DrapeCate::where('status','=', '1')
-                                ->whereNotIn('drape_cate_id',['14'])
-                                ->get(),
-            'drapes' => Drape::whereIn('drape_cate', ['1','2','4','5','6','7','9','10','11','12','13','99'])
-    							->where('status','<>', '0')
-    							// ->orderBy('drape_cate', 'ASC')
-    							->orderBy('sort', 'ASC')
-    							->get(),
+        $sdate = (empty(Input::get('_month'))) ? date('Y-m').'-01' : Input::get('_month').'-01';
+        $edate = date("Y-m-t", strtotime($sdate));
+
+    	return view('daily.receivedweight', [
+            'receiveds' => ReceivedDaily::whereBetween('date', [$sdate, $edate])->orderBy('date')->get(),
     		'stocks' => Substock::where('id','<>','1')->get(),
     		'_month' => (!Input::get('_month')) ? date('Y-m') : Input::get('_month'),
     	]);
+    }
+
+    public function receivedlist2 ()
+    {
+        return view('daily.receivedlist', [
+            'drapeCates' => DrapeCate::where('status','=', '1')
+                                ->whereNotIn('drape_cate_id',['14'])
+                                ->get(),
+            'drapes' => Drape::whereIn('drape_cate', ['1','2','4','5','6','7','9','10','11','12','13','99'])
+                                ->where('status','<>', '0')
+                                // ->orderBy('drape_cate', 'ASC')
+                                ->orderBy('sort', 'ASC')
+                                ->get(),
+            'stocks' => Substock::where('id','<>','1')->get(),
+            '_month' => (!Input::get('_month')) ? date('Y-m') : Input::get('_month'),
+        ]);
     }
 
     public function receivedform ()
@@ -65,7 +77,14 @@ class DailyController extends Controller
     	$received = new ReceivedDaily();
     	$received->date = $req['received_date'];
         $received->invoice = $req['invoice'];
+
+        $received->com_weight = $req['com_weight'];
+        $received->vip_weight = $req['vip_weight'];
+        $received->or_weight = $req['or_weight'];
+        $received->lr_weight = $req['lr_weight'];
+        $received->dent_weight = $req['dent_weight'];
     	$received->total_weight = $req['total_weight'];
+
         $received->repeat_weight = $req['repeat_weight'];
     	$received->defect_weight = $req['defect_weight'];
     	$received->remark = $req['remark'];

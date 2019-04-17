@@ -9,6 +9,7 @@
     </div>
 
     <hr />
+
     <!-- page title -->
 
     <div class="row">
@@ -31,9 +32,46 @@
                         </div>
                     </div>
                     
+                    <!-- # น้ำหนัก -->
                     <div class="col-md-6">
                         <div class="form-group">
-                            <label for="">น้ำหนักผ้าสะอาด (กก.)</label>
+                            <label for="">น้ำหนักผ้าสะอาด สามัญ (กก.)</label>
+                            <input type="text" id="com_weight" name="com_weight" class="form-control">
+                        </div>
+                    </div>
+
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="">น้ำหนักผ้าส่งซักซ้ำ ห้องพิเศษ (กก.) (ถ้ามี)</label>
+                            <input type="text" id="vip_weight" name="vip_weight" class="form-control">
+                        </div>
+                    </div>
+
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="">น้ำหนักผ้าสะอาด ห้องผ่าตัด (กก.)</label>
+                            <input type="text" id="or_weight" name="or_weight" class="form-control">
+                        </div>
+                    </div>
+
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="">น้ำหนักผ้าส่งซักซ้ำ ห้องคลอด (กก.) (ถ้ามี)</label>
+                            <input type="text" id="lr_weight" name="lr_weight" class="form-control">
+                        </div>
+                    </div>
+
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="">น้ำหนักผ้าสะอาด ทันตกรรม (กก.)</label>
+                            <input type="text" id="dent_weight" name="dent_weight" class="form-control">
+                        </div>
+                    </div>
+                    <!-- # น้ำหนัก -->
+
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="">น้ำหนักผ้าสะอาดทั้งหมด (กก.)</label>
                             <input type="text" id="total_weight" name="total_weight" class="form-control">
                         </div>
                     </div>
@@ -52,7 +90,7 @@
                         </div>
                     </div>
 
-                    <div class="col-md-6">
+                    <div class="col-md-12">
                         <div class="form-group">
                             <label for="">หมายเหตุ</label>
                             <input type="text" id="remark" name="remark" class="form-control">
@@ -71,6 +109,7 @@
                                         <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion" href="#collapse{{ $drapeCate->drape_cate_id }}">
                                             {{ $drapeCate->drape_cate_name }}
                                         </a>
+                                        
                                         <i class="indicator glyphicon glyphicon-chevron-down  pull-right"></i>
                                     </h4>
                                 </div>
