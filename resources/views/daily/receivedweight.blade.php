@@ -117,7 +117,6 @@
 <script>
     $(document).ready(function($) {
         var dateNow = new Date();
-
         $('#_month').datetimepicker({
             useCurrent: true,
             format: 'YYYY-MM',
