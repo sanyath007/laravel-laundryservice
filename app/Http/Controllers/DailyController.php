@@ -29,9 +29,9 @@ class DailyController extends Controller
         $edate = date("Y-m-t", strtotime($sdate));
 
     	return view('daily.receivedweight', [
-            'receiveds' => ReceivedDaily::whereBetween('date', [$sdate, $edate])->orderBy('date')->get(),
-    		'stocks' => Substock::where('id','<>','1')->get(),
-    		'_month' => (!Input::get('_month')) ? date('Y-m') : Input::get('_month'),
+            'receiveds'   => ReceivedDaily::whereBetween('date', [$sdate, $edate])->orderBy('date')->get(),
+    		'stocks'      => Substock::where('id','<>','1')->get(),
+    		'_month'      => (!Input::get('_month')) ? date('Y-m') : Input::get('_month'),
     	]);
     }
 

@@ -19,7 +19,6 @@ Route::get('/', 'Auth\LoginController@showLogin');
 
 Auth::routes();
 
-Route::get('/home', 'HomeController@index')->name('home');
 
 /** ============= Authentication ============= */
 Route::group(['middleware' => 'web'], function() {
@@ -31,6 +30,8 @@ Route::group(['middleware' => 'web'], function() {
 });
 
 Route::group(['middleware' => ['web','auth']], function () {
+    Route::get('/home', 'HomeController@index')->name('home');
+
 
     Route::get('/drape/list', 'DrapeController@index');
     Route::get('/drape/gen/list', 'DrapeController@genlist');
@@ -105,4 +106,9 @@ Route::group(['middleware' => ['web','auth']], function () {
     // Stock card
     Route::get('/stock/gen/list/{drape}', 'StockController@genlist');
     Route::get('/stock/or/list/{drape}', 'StockController@orlist');
+
+    // Dispose
+    Route::get('/dispose/list', 'DisposeController@index');
+    Route::get('/dispose/new', 'DisposeController@create');
+    Route::post('/dispose/add', 'DisposeController@add');
 });
