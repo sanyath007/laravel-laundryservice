@@ -31,7 +31,7 @@ class LoginController extends Controller
      */
     protected $redirectTo = '/home';
 
-    protected $username = 'person_username';
+    // protected $username = 'person_username';
 
     /**
      * Create a new controller instance.
@@ -41,6 +41,16 @@ class LoginController extends Controller
     public function __construct()
     {
         $this->middleware('guest')->except('logout');
+    }
+
+    /**
+     * Get the login username to be used by the controller.
+     *
+     * @return string
+     */
+    public function username()
+    {
+        return 'person_username';
     }
 
     public function showLogin ()
@@ -53,13 +63,13 @@ class LoginController extends Controller
         //validate the form data
 
         //attempt to log the user in
-        $credentials = $req->only('person_username', 'person_password');       
+        $credentials = $req->only($this->username(), 'password');       
         if (Auth::attempt($credentials, $req['remember'])) {
             //if successful, then redirect to their intended location
             return redirect()->intended('home');
         } else { 
             //if unsuccessful, then redirect back to the login with the form data
-            return redirect()->back()->withInput([$req->only('person_username', 'remember')]);
+            return redirect()->back()->withInput([$req->only('username', 'remember')]);
         }
     }
 

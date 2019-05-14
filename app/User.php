@@ -34,6 +34,16 @@ class User extends Authenticatable
 
     protected $keyType = 'string';
 
+    /**
+     * Get the password for the user.
+     *
+     * @return string
+     */
+    public function getAuthPassword()
+    {
+        return $this->person_password;
+    }
+
     public function department()
     {
         return $this->belongsTo('App\Department', 'office_id', 'ward_id');
