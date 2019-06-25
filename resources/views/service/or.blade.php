@@ -92,7 +92,26 @@
                                                 ->first();
                                 ?>
                                 <td style="text-align: center;">
-                                    {{ ($setData) ? (int)$setData->stock_amt + (int)$setData->sentin1_amt + (int)$setData->sentin2_amt + (int)$setData->sentin3_amt : '' }}
+                                <?php 
+                                    if($setData) {
+                                        $setTotal = ($setData) 
+                                            ? (int)$setData->stock_amt + (int)$setData->sentin1_amt + (int)$setData->sentin2_amt + (int)$setData->sentin3_amt : 
+                                            '';
+                                        
+
+                                        if($setData->set_id == 2 || $setData->set_id == 3) {
+                                            $service = (int)$orservice->gen + (int)$orservice->orth;
+                                        }
+                                        elseif($setData->set_id == 1) {
+                                            $service = (int)$orservice->eye + (int)$orservice->orth;
+                                        }
+                                        elseif($setData->set_id == 4) {
+                                            $service = (int)$orservice->num;
+                                        }
+
+                                        echo $setTotal - $service;
+                                    }
+                                ?>
                                 </td> 
                             @endforeach                     
                         </tr>
